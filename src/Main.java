@@ -3,7 +3,7 @@
 
 import mseAPP.DATE.DateEurope;
 import mseAPP.DATE.DateWorld;
-import mseAPP.USERS.CompaniesUser;
+import mseAPP.USERS.CompanieUser;
 import mseAPP.USERS.CustomerUser;
 import mseAPP.USERS.User;
 import mseAPI.printClass.printClass;
@@ -25,7 +25,7 @@ public class Main {
                 case "user":
                     User newUser;
                     CustomerUser newCustomer;
-                    CompaniesUser newCompany;
+                    CompanieUser newCompany;
                     Date newDate;
                     int userTypeChoice;
 
@@ -50,11 +50,12 @@ public class Main {
                     command = scannerMain.nextLine();
                     try {
                         newUser = new User(command);
-
                         if (userTypeChoice == 1) {
+                            newUser.setTypeUser("customer");
                             newCustomer = new CustomerUser(newUser);
                         } else {
-                            newCompany = new CompaniesUser(newUser);
+                            newCompany = new CompanieUser(newUser);
+                            newUser.setTypeUser("companie");
                         }
 
                         newUser.printName();
@@ -94,7 +95,6 @@ public class Main {
                         break;
                     }
                     break;
-
                 case "exit":
                     System.out.println("bye");
                     break;

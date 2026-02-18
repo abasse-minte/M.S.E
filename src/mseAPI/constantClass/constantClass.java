@@ -15,6 +15,7 @@ public final class constantClass {
     public final static int eleven = 11;
     public final static int twelve = 12;
     public final static int fifteen = 15;
+    public final static int twenty = 20;
     public final static int twentyFive = 25;
     public final static int twentyEight = 28;
     public final static int twentyNine = 29;

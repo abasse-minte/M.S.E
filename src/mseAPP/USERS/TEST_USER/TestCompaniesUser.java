@@ -11,7 +11,7 @@ package mseAPP.USERS.TEST_USER;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import mseAPP.USERS.User;
-import mseAPP.USERS.CompaniesUser;
+import mseAPP.USERS.CompanieUser;
 import mseAPI.printClass.printClass;
 import mseAPI.constantClass.constantClass;
 
@@ -25,7 +25,7 @@ public class TestCompaniesUser {
          * @param IUserTax
          */
         User U1 = new User("CompanyTest");
-        CompaniesUser C1 = new CompaniesUser(U1);
+        CompanieUser C1 = new CompanieUser(U1);
         assertNotNull(C1);
         printClass.printTestPassed("Constructor");
 

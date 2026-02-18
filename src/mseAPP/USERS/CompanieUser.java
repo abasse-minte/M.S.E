@@ -6,13 +6,13 @@ import mseAPI.constantClass.constantClass;
  * Implements the "IUserTax" interface
  * Handles tax calculations for company users
  */
-public class CompaniesUser extends UserTax implements IUserTax {
+public class CompanieUser extends UserTax implements IUserTax {
     // CONSTRUCTOR:
 
     /*
      * @param user IUserTax: user to apply company tax rates
      */
-    public CompaniesUser(IUserTax user){
+    public CompanieUser(IUserTax user){
         super(user);// return class mere, puis on edit la méthode
     }
 

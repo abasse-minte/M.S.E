@@ -25,8 +25,6 @@ public class User implements IUserInformation, IUserChecksANDCorrects, IUserTax 
     public String typeUser;
     public float profits;
     public float tax;
-    public final int sizeAgeMax;
-    public final int sizeAgeMin;
 
 
 
@@ -37,8 +35,6 @@ public class User implements IUserInformation, IUserChecksANDCorrects, IUserTax 
      */
 
     public User(String username) throws Exception{
-        this.sizeAgeMax = 3;
-        this.sizeAgeMin = 1;
         this.typeUser = "unknown";
         this.tax = 0;
         this.profits = 1;
@@ -119,7 +115,7 @@ public class User implements IUserInformation, IUserChecksANDCorrects, IUserTax 
      */
     @Override
     public boolean usernameSize(String username){
-        return username.length() <= constantClass.fifty && username.length() >= constantClass.three;
+        return username.length() <= constantClass.twenty && username.length() >= constantClass.three;
     }
 
     /*

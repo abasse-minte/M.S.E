@@ -1,6 +1,5 @@
 package mseAPI.printClass;
 import mseAPI.constantClass.constantClass;
-
 public final class printClass {
 
 
@@ -56,7 +55,7 @@ public final class printClass {
      * @param addColon boolean - whether to add a ":" after the text
      * return void
      */
-    public static void centerTextInHook(StringBuilder hook, String text, boolean addColon){
+    public static StringBuilder centerTextInHook(StringBuilder hook, String text, boolean addColon){
         /*
          * hookLength: int
          * textLength: int
@@ -103,7 +102,7 @@ public final class printClass {
             hook.setCharAt(start, colon.charAt(constantClass.zero));
         }
 
-        System.out.println(hook);
+        return hook;
     }
 
     /*
@@ -114,7 +113,7 @@ public final class printClass {
          * hook: StringBuilder
          */
         StringBuilder hook = new StringBuilder("                            ");
-        centerTextInHook(hook, name, true);
+        System.out.println(centerTextInHook(hook, name, true));
     }
 
     /*
@@ -125,7 +124,15 @@ public final class printClass {
          * hook: StringBuilder
          */
         StringBuilder hook = new StringBuilder("[                                                   ]");
-        centerTextInHook(hook, name, false);
+        System.out.println(centerTextInHook(hook, name, false));
+    }
+
+    public static StringBuilder printMyClient(String name){
+        /*
+         * hook: StringBuilder
+         */
+        StringBuilder hook = new StringBuilder("[                    ]");
+        return centerTextInHook(hook, name, false);
     }
 
 
@@ -152,6 +159,16 @@ public final class printClass {
         printClass.printMainSentence("Please, enter your choice:");
         printClass.printMainSentence("user");
         printClass.printMainSentence("exit");
+    }
+
+    public static void printMyClients(){
+        StringBuilder block = new StringBuilder();
+        block.append(printMyClient("USERNAME"));
+        block.append(printMyClient("AGE"));
+        block.append(printMyClient("CASH"));
+        block.append(printMyClient("CASH AVAILABLE"));
+        block.append(printMyClient("NUMBER OF SHARES"));
+        System.out.println(block);
     }
 
 }
