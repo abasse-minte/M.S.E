@@ -1,0 +1,436 @@
+/* ==========================================================================
+   registration.css
+   Used by: HTML/registration.html
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   GLOBAL RESET
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* --------------------------------------------------------------------------
+   CSS CUSTOM PROPERTIES (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  --bg:    #0d1b2e;
+  --card:  #162035;
+  --white: #ffffff;
+}
+
+
+/* --------------------------------------------------------------------------
+   BODY
+   -------------------------------------------------------------------------- */
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(30,60,100,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(15,40,80,0.3)  0%, transparent 50%);
+  font-family: 'Exo 2', sans-serif;
+  color: var(--white);
+  display: -webkit-flex; /* Safari < 9 */
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+header {
+  padding: 24px 36px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  gap: 12px;
+  -webkit-animation: fadeDown 0.6s ease both;
+  animation: fadeDown 0.6s ease both;
+}
+
+header .logo-svg {
+  width: 38px;
+  height: 52px;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+}
+
+header span {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  /* clamp() fallback for older Safari: fixed middle value */
+  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+
+/* ==========================================================================
+   MAIN LAYOUT WRAPPER
+   ========================================================================== */
+.layout {
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+
+/* ==========================================================================
+   FORM CARD
+   ========================================================================== */
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  /* clamp() fallback for older Safari */
+  padding: 52px 56px;
+  padding: clamp(40px, 6vw, 64px) clamp(32px, 6vw, 80px);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+  -webkit-animation: fadeUp 0.7s 0.2s ease both;
+  animation: fadeUp 0.7s 0.2s ease both;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.card h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.65rem;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-align: center;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+/* Inner wrapper: constrains input + button to 70% of card width */
+.card-body {
+  width: 70%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+}
+
+
+/* --------------------------------------------------------------------------
+   INPUT WRAPPER
+   -------------------------------------------------------------------------- */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-wrapper input {
+  width: 100%;
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 20px 28px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  color: #0d1b2e;
+  outline: none;
+  -webkit-transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s;
+  /* Remove Safari's default inner shadow on inputs */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input-wrapper input:focus {
+  box-shadow: 0 0 0 3px rgba(100,160,255,0.3);
+}
+
+/* Decorative underline inside the input box */
+.input-wrapper::after {
+  content: '';
+  position: absolute;
+  /* inset shorthand replaced with individual props for full Safari support */
+  bottom: 16px;
+  left: 28px;
+  right: 28px;
+  top: auto;
+  height: 1.5px;
+  background: rgba(13,27,46,0.25);
+  pointer-events: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   CARD FOOTER + NEXT BUTTON
+   -------------------------------------------------------------------------- */
+.card-footer {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.btn-next {
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  width: 58px;
+  height: 58px;
+  cursor: pointer;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.btn-next:hover {
+  -webkit-transform: scale(1.07);
+  transform: scale(1.07);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.btn-next:active {
+  -webkit-transform: scale(0.97);
+  transform: scale(0.97);
+}
+
+.btn-next svg {
+  width: 22px;
+  height: 22px;
+}
+
+
+/* ==========================================================================
+   SIDEBAR NAVIGATION
+   ========================================================================== */
+.sidenav {
+  position: fixed;
+  right: 36px;
+  right: clamp(20px, 4vw, 52px);
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+  gap: 24px;
+  -webkit-animation: fadeLeft 0.7s 0.4s ease both;
+  animation: fadeLeft 0.7s 0.4s ease both;
+  z-index: 10;
+}
+
+.nav-item {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  color: rgba(255,255,255,0.45);
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+}
+
+.nav-item:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.nav-item span {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.nav-icon-wrap {
+  position: relative;
+  width: 42px;
+  height: 58px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+}
+
+.nav-icon-wrap svg.feather {
+  width: 22px;
+  height: 32px;
+}
+
+/* Persistent oval border on the active nav icon.
+   Using top/right/bottom/left instead of inset: 0 for Safari compatibility */
+.nav-icon-wrap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 1.8px solid transparent;
+  border-radius: 50px;
+  -webkit-transition: border-color 0.2s;
+  transition: border-color 0.2s;
+}
+
+.nav-item.active {
+  color: var(--white);
+}
+
+.nav-item.active .nav-icon-wrap::before {
+  border-color: rgba(255,255,255,0.75);
+}
+
+
+/* --------------------------------------------------------------------------
+   HOVER OVAL (floating cursor indicator — desktop only)
+   -------------------------------------------------------------------------- */
+.hover-oval {
+  position: fixed;
+  width: 42px;
+  height: 58px;
+  border: 1.8px solid rgba(255,255,255,0.55);
+  border-radius: 50px;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: opacity 0.18s ease,
+                      top  0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                      left 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.18s ease,
+              top  0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              left 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-oval.visible {
+  opacity: 1;
+}
+
+
+/* ==========================================================================
+   RESPONSIVE — MOBILE (max-width: 680px)
+   ========================================================================== */
+@media (max-width: 680px) {
+
+  .sidenav {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    -webkit-transform: none;
+    transform: none;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    -webkit-align-items: center;
+    align-items: center;
+    background: rgba(13,27,46,0.96);
+    /* Safari requires -webkit- prefix for backdrop-filter */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 10px 8px 16px;
+    gap: 0;
+  }
+
+  .nav-item {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .nav-item span {
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-icon-wrap {
+    width: 36px;
+    height: 46px;
+  }
+
+  .nav-icon-wrap svg.feather {
+    width: 16px;
+    height: 24px;
+  }
+
+  body {
+    padding-bottom: 80px;
+  }
+
+  /* Hover oval is cursor-driven, not relevant on touch screens */
+  .hover-oval {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS — all prefixed for Safari
+   ========================================================================== */
+
+@-webkit-keyframes fadeDown {
+  from { opacity: 0; -webkit-transform: translateY(-20px); transform: translateY(-20px); }
+  to   { opacity: 1; -webkit-transform: translateY(0);     transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@-webkit-keyframes fadeUp {
+  from { opacity: 0; -webkit-transform: translateY(30px); transform: translateY(30px); }
+  to   { opacity: 1; -webkit-transform: translateY(0);    transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@-webkit-keyframes fadeLeft {
+  from { opacity: 0; -webkit-transform: translate(20px, -50%); transform: translate(20px, -50%); }
+  to   { opacity: 1; -webkit-transform: translate(0,    -50%); transform: translate(0,    -50%); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translate(20px, -50%); }
+  to   { opacity: 1; transform: translate(0,    -50%); }
+}
