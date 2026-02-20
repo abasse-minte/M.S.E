@@ -1,114 +1,133 @@
 <!DOCTYPE html>
-<!-- Root HTML element — lang="fr" for screen readers and SEO -->
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registration</title>
-
-  <!-- Google Fonts: Rajdhani (headings/labels) + Exo 2 (body/inputs) -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Exo+2:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- Stylesheet: goes up one level from HTML/ then into CSS/ -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../CSS/registration.css" />
 </head>
-
 <body>
 
-  <!-- Floating oval that follows the cursor over the sidebar nav icons -->
   <div class="hover-oval" id="hoverOval"></div>
 
-
-  <!-- HEADER: feather logo + page title -->
+  <!-- HEADER -->
   <header>
     <svg class="logo-svg" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="white" opacity="0.9"/>
       <line x1="25" y1="78" x2="30" y2="30" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
       <line x1="28" y1="55" x2="44" y2="42" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
-      <line x1="26" y1="63" x2="42" y2="50" stroke="rgba(255,255,255,0.2)"  stroke-width="0.8"/>
-      <line x1="27" y1="48" x2="38" y2="34" stroke="rgba(255,255,255,0.2)"  stroke-width="0.8"/>
+      <line x1="26" y1="63" x2="42" y2="50" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+      <line x1="27" y1="48" x2="38" y2="34" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
     </svg>
     <span>Registration</span>
   </header>
 
-
-  <!-- MAIN: centres the form card vertically and horizontally -->
   <main class="layout">
     <div class="card">
-      <h1>Username</h1>
 
-      <div class="card-body">
-
-        <div class="input-wrapper">
-          <input type="text" id="username" autocomplete="off" />
+      <!-- STEP 1: USERNAME -->
+      <div class="step" id="step-username">
+        <h1>Username</h1>
+        <div class="card-body">
+          <div class="input-wrapper">
+            <input type="text" id="username" autocomplete="off" />
+          </div>
+          <div class="card-footer">
+            <button class="btn-next" id="username-next" aria-label="Suivant">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
         </div>
-
-        <div class="card-footer">
-          <button class="btn-next" aria-label="Suivant">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e"
-                 stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </button>
-        </div>
-
       </div>
-    </div>
-  </main>
 
+      <!-- STEP 2: BIRTHDAY -->
+      <div class="step hidden" id="step-birthday">
+        <h1>Birthday</h1>
+        <div class="card-body">
+          <div class="birthday-circles" id="birthday-circles">
+            <div class="digit-circle" data-index="0"></div>
+            <div class="digit-circle" data-index="1"></div>
+            <span class="sep">/</span>
+            <div class="digit-circle" data-index="2"></div>
+            <div class="digit-circle" data-index="3"></div>
+            <span class="sep">/</span>
+            <div class="digit-circle" data-index="4"></div>
+            <div class="digit-circle" data-index="5"></div>
+            <div class="digit-circle" data-index="6"></div>
+            <div class="digit-circle" data-index="7"></div>
+          </div>
+          <input type="tel" id="birthday-input" maxlength="8" autocomplete="off" class="birthday-hidden-input" />
+          <div class="card-footer two-buttons">
+            <button class="btn-back" id="birthday-back" aria-label="Retour">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="btn-next" id="birthday-next" aria-label="Suivant">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: CONTINENT -->
+      <div class="step hidden" id="step-continent">
+        <h1>Continent</h1>
+        <div class="card-body">
+          <div class="continent-grid">
+            <button class="continent-btn" data-continent="Asia"><span class="continent-icon">🍍</span><span class="continent-name">Asia</span></button>
+            <button class="continent-btn" data-continent="North America"><span class="continent-icon">🍎</span><span class="continent-name">North America</span></button>
+            <button class="continent-btn" data-continent="South America"><span class="continent-icon">🥭</span><span class="continent-name">South America</span></button>
+            <button class="continent-btn" data-continent="Europe"><span class="continent-icon">🍇</span><span class="continent-name">Europe</span></button>
+            <button class="continent-btn" data-continent="Africa"><span class="continent-icon">🌴</span><span class="continent-name">Africa</span></button>
+            <button class="continent-btn" data-continent="Oceania"><span class="continent-icon">🥝</span><span class="continent-name">Oceania</span></button>
+          </div>
+          <div class="card-footer two-buttons">
+            <button class="btn-back" id="continent-back" aria-label="Retour">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="btn-next" id="continent-next" aria-label="Suivant">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: COUNTRY -->
+      <div class="step hidden" id="step-country">
+        <!-- Continent label shown at top -->
+        <div class="country-continent-label" id="country-continent-label"></div>
+        <h1>Country</h1>
+        <div class="card-body">
+          <!-- 9 country buttons rendered by JS -->
+          <div class="country-grid" id="country-grid"></div>
+          <!-- Pagination: prev / page info / next -->
+          <div class="country-pagination">
+            <button class="page-btn" id="page-prev" aria-label="Page précédente">&#8249;</button>
+            <span class="page-info" id="page-info"></span>
+            <button class="page-btn" id="page-next" aria-label="Page suivante">&#8250;</button>
+          </div>
+          <div class="card-footer two-buttons">
+            <button class="btn-back" id="country-back" aria-label="Retour">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="btn-next" id="country-next" aria-label="Valider">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /card -->
+  </main>
 
   <!-- SIDEBAR NAV -->
   <nav class="sidenav" id="sidenav">
-
-    <a class="nav-item" href="#">
-      <span>Market</span>
-      <div class="nav-icon-wrap">
-        <svg class="feather" viewBox="0 0 60 80" fill="none">
-          <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/>
-          <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
-        </svg>
-      </div>
-    </a>
-
-    <a class="nav-item" href="#">
-      <span>Assets</span>
-      <div class="nav-icon-wrap">
-        <svg class="feather" viewBox="0 0 60 80" fill="none">
-          <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/>
-          <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
-        </svg>
-      </div>
-    </a>
-
-    <a class="nav-item active" href="#">
-      <span>Account</span>
-      <div class="nav-icon-wrap">
-        <svg class="feather" viewBox="0 0 60 80" fill="none">
-          <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/>
-          <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
-        </svg>
-      </div>
-    </a>
-
-    <a class="nav-item" href="#">
-      <span>Settings</span>
-      <div class="nav-icon-wrap">
-        <svg class="feather" viewBox="0 0 60 80" fill="none">
-          <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/>
-          <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
-        </svg>
-      </div>
-    </a>
-
+    <a class="nav-item" href="#"><span>Market</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item" href="#"><span>Assets</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item active" href="#"><span>Account</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item" href="#"><span>Settings</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
   </nav>
 
-
-  <!-- JS: goes up one level from HTML/ then into JAVA_SCRIPT/ -->
   <script src="../JAVA_SCRIPT/registration.js"></script>
-
 </body>
 </html>
