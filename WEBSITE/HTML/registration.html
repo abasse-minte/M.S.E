@@ -1,133 +1,477 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registration</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../CSS/registration.css" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Account — M.S.E</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+    <!-- Stylesheet — chemin relatif depuis HTML/ vers CSS/ -->
+    <link rel="stylesheet" href="../CSS/registration.css"/>
 </head>
 <body>
 
-  <div class="hover-oval" id="hoverOval"></div>
+<div class="hover-oval" id="hoverOval"></div>
 
-  <!-- HEADER -->
-  <header>
-    <svg class="logo-svg" viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="white" opacity="0.9"/>
-      <line x1="25" y1="78" x2="30" y2="30" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-      <line x1="28" y1="55" x2="44" y2="42" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
-      <line x1="26" y1="63" x2="42" y2="50" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
-      <line x1="27" y1="48" x2="38" y2="34" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+<!-- ═══ HEADER ═══ -->
+<header>
+    <svg class="logo-user" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle class="user-ring" cx="17" cy="17" r="15.5" stroke="white" stroke-width="1" stroke-dasharray="3 2.5" opacity="0.3"/>
+        <g class="user-orbit">
+            <circle cx="17" cy="2.5" r="2" fill="white" opacity="0.7"/>
+        </g>
+        <circle cx="17" cy="13" r="4.5" fill="rgba(255,255,255,0.15)" stroke="white" stroke-width="1.5"/>
+        <path d="M8 26 C8 21, 26 21, 26 26" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="17" cy="17" r="1.5" fill="white" opacity="0.2"/>
     </svg>
-    <span>Registration</span>
-  </header>
+    <span class="app-name" data-i18n="reg.appname">Account — M.S.E</span>
+    <div class="header-right" style="margin-left:auto;display:flex;align-items:center;gap:14px">
+        <div class="status-badge offline" id="statusBadge">
+            <span class="status-dot"></span>
+            <span id="statusLabel">OFF</span>
+        </div>
+    </div>
+</header>
 
-  <main class="layout">
+<!-- ═══ MAIN CARD ═══ -->
+<main class="layout">
     <div class="card">
 
-      <!-- STEP 1: USERNAME -->
-      <div class="step" id="step-username">
-        <h1>Username</h1>
-        <div class="card-body">
-          <div class="input-wrapper">
-            <input type="text" id="username" autocomplete="off" />
-          </div>
-          <div class="card-footer">
-            <button class="btn-next" id="username-next" aria-label="Suivant">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
+        <!-- LANDING: Sign Up / Sign In choice -->
+        <div class="step" id="step-landing">
+            <div class="landing-logo">
+                <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="64">
+                    <path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="white" opacity="0.9"/>
+                    <line x1="25" y1="78" x2="30" y2="30" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                </svg>
+            </div>
+            <h1 class="landing-title" data-i18n="reg.welcome">Welcome to Muïo Stock Exchange</h1>
+            <p class="landing-sub" data-i18n="reg.sub">Create an account or sign in to continue.</p>
+            <div class="landing-actions">
+                <button class="landing-btn-primary" id="go-signup">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                    <span data-i18n="reg.signup">Sign Up</span>
+                </button>
+                <button class="landing-btn-secondary" id="go-signin">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <span data-i18n="reg.signin">Sign In</span>
+                </button>
+            </div>
         </div>
-      </div>
 
-      <!-- STEP 2: BIRTHDAY -->
-      <div class="step hidden" id="step-birthday">
-        <h1>Birthday</h1>
-        <div class="card-body">
-          <div class="birthday-circles" id="birthday-circles">
-            <div class="digit-circle" data-index="0"></div>
-            <div class="digit-circle" data-index="1"></div>
-            <span class="sep">/</span>
-            <div class="digit-circle" data-index="2"></div>
-            <div class="digit-circle" data-index="3"></div>
-            <span class="sep">/</span>
-            <div class="digit-circle" data-index="4"></div>
-            <div class="digit-circle" data-index="5"></div>
-            <div class="digit-circle" data-index="6"></div>
-            <div class="digit-circle" data-index="7"></div>
-          </div>
-          <input type="tel" id="birthday-input" maxlength="8" autocomplete="off" class="birthday-hidden-input" />
-          <div class="card-footer two-buttons">
-            <button class="btn-back" id="birthday-back" aria-label="Retour">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button class="btn-next" id="birthday-next" aria-label="Suivant">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
+        <!-- SIGN IN -->
+        <div class="step hidden" id="step-signin">
+            <h1 data-i18n="reg.signin">Sign In</h1>
+            <div class="card-body">
+                <div class="input-wrapper">
+                    <input type="email" id="signin-email" autocomplete="off" placeholder="Email"/>
+                </div>
+                <div class="input-wrapper password-wrapper" style="margin-bottom:8px">
+                    <input type="password" id="signin-password" autocomplete="current-password" placeholder="Password"/>
+                    <button class="password-toggle" id="signin-pwd-toggle" type="button" aria-label="Show/Hide">
+                        <svg class="eye-open-si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg class="eye-closed-si hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </button>
+                </div>
+                <div class="signin-error hidden" id="signin-error" data-i18n="reg.signin.error">Invalid email or password.</div>
+                <div class="card-footer two-buttons" style="margin-top:16px">
+                    <button class="btn-back" id="signin-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="signin-submit" aria-label="Se connecter">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+                <p class="signin-switch"><span data-i18n="reg.signin.noaccount">No account?</span> <button class="signin-switch-btn" id="signin-to-signup" data-i18n="reg.signin.tossignup">Sign Up</button></p>
+            </div>
         </div>
-      </div>
 
-      <!-- STEP 3: CONTINENT -->
-      <div class="step hidden" id="step-continent">
-        <h1>Continent</h1>
-        <div class="card-body">
-          <div class="continent-grid">
-            <button class="continent-btn" data-continent="Asia"><span class="continent-icon">🍍</span><span class="continent-name">Asia</span></button>
-            <button class="continent-btn" data-continent="North America"><span class="continent-icon">🍎</span><span class="continent-name">North America</span></button>
-            <button class="continent-btn" data-continent="South America"><span class="continent-icon">🥭</span><span class="continent-name">South America</span></button>
-            <button class="continent-btn" data-continent="Europe"><span class="continent-icon">🍇</span><span class="continent-name">Europe</span></button>
-            <button class="continent-btn" data-continent="Africa"><span class="continent-icon">🌴</span><span class="continent-name">Africa</span></button>
-            <button class="continent-btn" data-continent="Oceania"><span class="continent-icon">🥝</span><span class="continent-name">Oceania</span></button>
-          </div>
-          <div class="card-footer two-buttons">
-            <button class="btn-back" id="continent-back" aria-label="Retour">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button class="btn-next" id="continent-next" aria-label="Suivant">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
+        <!-- STEP 1: USERNAME -->
+        <div class="step hidden" id="step-username">
+            <h1 data-i18n="reg.step.username">Username</h1>
+            <div class="card-body">
+                <div class="input-wrapper">
+                    <input type="text" id="username" autocomplete="off"/>
+                </div>
+                <div class="card-footer two-buttons">
+                    <button class="btn-back" id="username-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="username-next" aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
 
-      <!-- STEP 4: COUNTRY -->
-      <div class="step hidden" id="step-country">
-        <!-- Continent label shown at top -->
-        <div class="country-continent-label" id="country-continent-label"></div>
-        <h1>Country</h1>
-        <div class="card-body">
-          <!-- 9 country buttons rendered by JS -->
-          <div class="country-grid" id="country-grid"></div>
-          <!-- Pagination: prev / page info / next -->
-          <div class="country-pagination">
-            <button class="page-btn" id="page-prev" aria-label="Page précédente">&#8249;</button>
-            <span class="page-info" id="page-info"></span>
-            <button class="page-btn" id="page-next" aria-label="Page suivante">&#8250;</button>
-          </div>
-          <div class="card-footer two-buttons">
-            <button class="btn-back" id="country-back" aria-label="Retour">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button class="btn-next" id="country-next" aria-label="Valider">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
+        <!-- STEP 2: BIRTHDAY -->
+        <div class="step hidden" id="step-birthday">
+            <h1 data-i18n="reg.step.birthday">Birthday</h1>
+            <div class="card-body">
+                <div class="birthday-circles" id="birthday-circles">
+                    <div class="digit-circle" data-index="0"></div>
+                    <div class="digit-circle" data-index="1"></div>
+                    <span class="sep">/</span>
+                    <div class="digit-circle" data-index="2"></div>
+                    <div class="digit-circle" data-index="3"></div>
+                    <span class="sep">/</span>
+                    <div class="digit-circle" data-index="4"></div>
+                    <div class="digit-circle" data-index="5"></div>
+                    <div class="digit-circle" data-index="6"></div>
+                    <div class="digit-circle" data-index="7"></div>
+                </div>
+                <input type="tel" id="birthday-input" maxlength="8" autocomplete="off" class="birthday-hidden-input"/>
+                <div class="card-footer two-buttons">
+                    <button class="btn-back" id="birthday-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="birthday-next" aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <!-- STEP 3: CONTINENT -->
+        <div class="step hidden" id="step-continent">
+            <h1 data-i18n="reg.step.continent">Continent</h1>
+            <div class="card-body">
+                <div class="continent-grid">
+                    <button class="continent-btn" data-continent="Asia"><span class="continent-icon">🍍</span><span class="continent-name">Asia</span></button>
+                    <button class="continent-btn" data-continent="North America"><span class="continent-icon">🍎</span><span class="continent-name">North America</span></button>
+                    <button class="continent-btn" data-continent="South America"><span class="continent-icon">🥭</span><span class="continent-name">South America</span></button>
+                    <button class="continent-btn" data-continent="Europe"><span class="continent-icon">🍇</span><span class="continent-name">Europe</span></button>
+                    <button class="continent-btn" data-continent="Africa"><span class="continent-icon">🌴</span><span class="continent-name">Africa</span></button>
+                    <button class="continent-btn" data-continent="Oceania"><span class="continent-icon">🥝</span><span class="continent-name">Oceania</span></button>
+                </div>
+                <div class="card-footer two-buttons">
+                    <button class="btn-back" id="continent-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="continent-next" aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: COUNTRY -->
+        <div class="step hidden" id="step-country">
+            <div class="country-continent-label" id="country-continent-label"></div>
+            <h1 data-i18n="reg.step.country">Country</h1>
+            <div class="card-body">
+                <div class="country-grid" id="country-grid"></div>
+                <div class="country-pagination">
+                    <button class="page-btn" id="page-prev" aria-label="Page précédente">&#8249;</button>
+                    <span class="page-info" id="page-info"></span>
+                    <button class="page-btn" id="page-next" aria-label="Page suivante">&#8250;</button>
+                </div>
+                <div class="card-footer two-buttons">
+                    <button class="btn-back" id="country-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="country-next" aria-label="Valider">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 5: PROFILE PHOTO -->
+        <div class="step hidden" id="step-photo">
+            <h1 data-i18n="reg.step.photo">Profile Photo</h1>
+            <div class="card-body">
+                <div class="photo-dropzone" id="photo-dropzone">
+                    <div class="photo-preview-wrap" id="photo-preview-wrap">
+                        <canvas id="crop-canvas"></canvas>
+                        <div class="photo-drag-hint" id="photo-drag-hint" data-i18n="reg.step.photo.drag">Drag to reposition</div>
+                    </div>
+                    <div class="photo-empty" id="photo-empty">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="24" cy="24" r="23" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="4 3"/>
+                            <circle cx="24" cy="19" r="6" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+                            <path d="M10 38 C10 30 38 30 38 38" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M24 8 L24 14 M21 11 L24 8 L27 11" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="photo-empty-label" data-i18n="reg.step.photo.drop">Drop your photo here</span>
+                        <span class="photo-empty-sub" data-i18n="reg.step.photo.sub">or click to browse</span>
+                    </div>
+                    <input type="file" id="photo-file-input" accept="image/*" class="photo-file-input"/>
+                </div>
+                <div class="photo-zoom-wrap hidden" id="photo-zoom-wrap">
+                    <svg viewBox="0 0 18 18" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><line x1="11" y1="11" x2="16" y2="16"/><line x1="4" y1="7" x2="10" y2="7"/></svg>
+                    <input type="range" id="zoom-slider" min="1" max="3" step="0.01" value="1" class="zoom-slider"/>
+                    <svg viewBox="0 0 18 18" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><line x1="11" y1="11" x2="16" y2="16"/><line x1="4" y1="7" x2="10" y2="7"/><line x1="7" y1="4" x2="7" y2="10"/></svg>
+                </div>
+                <div class="card-footer two-buttons">
+                    <button class="btn-back" id="photo-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="photo-next" aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 6: EMAIL -->
+        <div class="step hidden" id="step-email">
+            <h1 data-i18n="reg.step.email">Email</h1>
+            <div class="card-body">
+                <div class="input-wrapper">
+                    <input type="email" id="email" autocomplete="off" placeholder="you@example.com"/>
+                </div>
+                <div class="email-error hidden" id="email-error" data-i18n="reg.step.email.error">Please enter a valid email address.</div>
+                <div class="card-footer two-buttons">
+                    <button class="btn-back" id="email-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="email-next" aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 7: PASSWORD -->
+        <div class="step hidden" id="step-password">
+            <h1 data-i18n="reg.step.password">Password</h1>
+            <div class="card-body">
+                <div class="input-wrapper password-wrapper">
+                    <input type="password" id="password" autocomplete="new-password" placeholder="Choose a password"/>
+                    <button class="password-toggle" id="password-toggle" type="button" aria-label="Show/Hide password">
+                        <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </button>
+                </div>
+                <div class="password-rules" id="password-rules">
+                    <div class="rule" id="rule-lower"><span class="rule-dot"></span><span data-i18n="reg.rule.lower">One lowercase letter</span></div>
+                    <div class="rule" id="rule-upper"><span class="rule-dot"></span><span data-i18n="reg.rule.upper">One uppercase letter</span></div>
+                    <div class="rule" id="rule-digit"><span class="rule-dot"></span><span data-i18n="reg.rule.digit">One number</span></div>
+                    <div class="rule" id="rule-special"><span class="rule-dot"></span><span data-i18n="reg.rule.special">One special character</span></div>
+                </div>
+                <div class="card-footer two-buttons" style="margin-top:12px">
+                    <button class="btn-back" id="password-back" aria-label="Retour">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="btn-next" id="password-next" aria-label="Suivant">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1b2e" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 8: RECAP -->
+        <div class="step hidden" id="step-recap">
+            <div class="recap-header">
+                <div class="recap-check" id="recap-check">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="19" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+                        <path class="check-path" d="M11 20.5 L17.5 27 L29 14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </div>
+                <div class="recap-title-block">
+                    <span class="recap-label" data-i18n="reg.recap.complete">Registration complete</span>
+                    <span class="recap-sub" data-i18n="reg.recap.review">Review your information</span>
+                </div>
+            </div>
+
+            <div class="recap-card">
+                <div class="recap-row recap-row-photo" style="--delay:0.05s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.photo">Photo</span>
+                        <canvas id="recap-photo-canvas" class="recap-photo-circle"></canvas>
+                    </div>
+                    <button class="recap-edit-btn" data-target="photo" aria-label="Edit photo">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+                <div class="recap-divider"></div>
+
+                <div class="recap-row" style="--delay:0.1s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.username">Username</span>
+                        <span class="recap-value" id="recap-username">—</span>
+                    </div>
+                    <button class="recap-edit-btn" data-target="username" aria-label="Edit username">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+                <div class="recap-divider"></div>
+
+                <div class="recap-row" style="--delay:0.22s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.birthday">Birthday</span>
+                        <span class="recap-value" id="recap-birthday">—</span>
+                    </div>
+                    <button class="recap-edit-btn" data-target="birthday" aria-label="Edit birthday">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+                <div class="recap-divider"></div>
+
+                <div class="recap-row" style="--delay:0.34s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.continent">Continent</span>
+                        <span class="recap-value" id="recap-continent">—</span>
+                    </div>
+                    <button class="recap-edit-btn" data-target="continent" aria-label="Edit continent">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+                <div class="recap-divider"></div>
+
+                <div class="recap-row" style="--delay:0.46s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.country">Country</span>
+                        <span class="recap-value" id="recap-country">—</span>
+                    </div>
+                    <button class="recap-edit-btn" data-target="country" aria-label="Edit country">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+                <div class="recap-divider"></div>
+
+                <div class="recap-row" style="--delay:0.58s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.email">Email</span>
+                        <span class="recap-value" id="recap-email">—</span>
+                    </div>
+                    <button class="recap-edit-btn" data-target="email" aria-label="Edit email">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+                <div class="recap-divider"></div>
+
+                <div class="recap-row" style="--delay:0.70s">
+                    <div class="recap-row-left">
+                        <span class="recap-field" data-i18n="reg.recap.password">Password</span>
+                        <span class="recap-value">••••••••</span>
+                    </div>
+                    <button class="recap-edit-btn" data-target="password" aria-label="Edit password">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l3 3L6 17H3v-3L14.5 2.5z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <button class="recap-confirm-btn" id="recap-confirm">
+                <span data-i18n="reg.recap.confirm">Confirm</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+
+        <!-- PROFILE BLOCK (shown after confirm) -->
+        <div class="step hidden" id="step-profile">
+            <div class="profile-hero">
+                <canvas id="profile-photo-canvas" class="profile-photo-large"></canvas>
+                <div class="profile-hero-info">
+                    <span class="profile-hero-name" id="profile-hero-name">—</span>
+                    <span class="profile-hero-sub" id="profile-hero-sub">—</span>
+                </div>
+            </div>
+
+            <div class="profile-section-title" data-i18n="reg.profile.details">Account Details</div>
+            <div class="profile-fields" id="profile-fields"></div>
+
+            <div class="profile-action-row">
+                <button class="logout-btn" id="logout-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span data-i18n="reg.logout">Log Out</span>
+                </button>
+                <button class="delete-account-btn" id="delete-account-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                    <span data-i18n="reg.delete">Delete Account</span>
+                </button>
+            </div>
+
+            <!-- Change password modal -->
+            <div class="delete-modal hidden" id="change-password-modal">
+                <div class="delete-modal-inner">
+                    <div class="delete-modal-title" style="color:var(--white)" data-i18n="reg.changepwd.title">Change Password</div>
+                    <div class="input-wrapper password-wrapper" style="margin-bottom:0">
+                        <input type="password" id="new-password-input" autocomplete="new-password" placeholder="New password" data-i18n-ph="reg.changepwd.ph"/>
+                        <button class="password-toggle" id="new-password-toggle" type="button" aria-label="Show/Hide password">
+                            <svg class="eye-open-new" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <svg class="eye-closed-new hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                        </button>
+                    </div>
+                    <div class="password-rules" id="new-password-rules" style="margin-top:10px">
+                        <div class="rule" id="new-rule-lower"><span class="rule-dot"></span><span data-i18n="reg.rule.lower">One lowercase letter</span></div>
+                        <div class="rule" id="new-rule-upper"><span class="rule-dot"></span><span data-i18n="reg.rule.upper">One uppercase letter</span></div>
+                        <div class="rule" id="new-rule-digit"><span class="rule-dot"></span><span data-i18n="reg.rule.digit">One number</span></div>
+                        <div class="rule" id="new-rule-special"><span class="rule-dot"></span><span data-i18n="reg.rule.special">One special character</span></div>
+                    </div>
+                    <div class="delete-modal-actions">
+                        <button class="delete-modal-cancel" id="change-password-cancel" data-i18n="reg.changepwd.cancel">Cancel</button>
+                        <button class="delete-modal-confirm" id="change-password-confirm" data-i18n="reg.changepwd.save" disabled style="color:#fff;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.12)">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete confirmation modal -->
+            <div class="delete-modal hidden" id="delete-modal">
+                <div class="delete-modal-inner">
+                    <div class="delete-modal-title" data-i18n="reg.delete.title">Delete Account?</div>
+                    <div class="delete-modal-desc" data-i18n-html="reg.delete.desc">This action is irreversible. Type <strong>delete</strong> to confirm.</div>
+                    <div class="input-wrapper" style="margin-bottom:0">
+                        <input type="text" id="delete-confirm-input" autocomplete="off" placeholder="delete"/>
+                    </div>
+                    <div class="delete-modal-actions">
+                        <button class="delete-modal-cancel" id="delete-modal-cancel" data-i18n="reg.delete.cancel">Cancel</button>
+                        <button class="delete-modal-confirm" id="delete-modal-confirm" disabled data-i18n="reg.delete.confirm">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div><!-- /card -->
-  </main>
+</main>
 
-  <!-- SIDEBAR NAV -->
-  <nav class="sidenav" id="sidenav">
-    <a class="nav-item" href="#"><span>Market</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
-    <a class="nav-item" href="#"><span>Assets</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
-    <a class="nav-item active" href="#"><span>Account</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
-    <a class="nav-item" href="#"><span>Settings</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
-  </nav>
+<!-- ═══ SIDEBAR NAV ═══ -->
+<nav class="sidenav" id="sidenav">
+    <a class="nav-item" href="market.html">
+        <span data-i18n="market.nav.market">Market</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg>
+        </div>
+    </a>
+    <a class="nav-item" href="assets.html">
+        <span data-i18n="market.nav.assets">Assets</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg>
+        </div>
+    </a>
+    <a class="nav-item active" href="registration.html">
+        <span data-i18n="market.nav.account">Account</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg>
+        </div>
+    </a>
+    <a class="nav-item" href="settings.html">
+        <span data-i18n="market.nav.settings">Settings</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10, 60 30, 45 55 C35 70, 28 75, 25 78 C26 65, 32 50, 28 35 C24 20, 14 18, 10 22 C18 10, 22 4, 30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg>
+        </div>
+    </a>
+</nav>
+<
+<!-- Script — chemin relatif depuis HTML/ vers JAVA_SCRIPT/ -->
+<script src="../JAVA_SCRIPT/mse-currency.js"></script>
+<script src="../JAVA_SCRIPT/mse-lang.js"></script>
+<script src="../JAVA_SCRIPT/registration.js"></script>
 
-  <script src="../JAVA_SCRIPT/registration.js"></script>
+
+<footer class="mse-footer">
+    © 2026 M.S.E — Muïo Stock Exchange
+    <span class="footer-sep">·</span>
+    <a href="mailto:abasse.minte@gmail.com" title="Email">abasse.minte@gmail.com</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-discord" title="Discord">⬡ _.__._.__._.__._.___</span>
+    <span class="footer-sep">·</span>
+    <a href="https://www.youtube.com/@MUIOOOOOOO" target="_blank" rel="noopener" title="YouTube">▶ MUÏO</a>
+</footer>
+
 </body>
 </html>

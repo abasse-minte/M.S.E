@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n-title="assets.title">Assets — M.S.E</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../CSS/assets.css" />
+</head>
+<body>
+
+<div class="hover-oval" id="hoverOval"></div>
+<!-- ═══ GUEST LOCK OVERLAY ═══ -->
+<div id="guestLockOverlay" style="
+    display:flex;
+    position:fixed;top:82px;left:0;right:0;bottom:0;z-index:8;
+    background:rgba(8,15,28,.75);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    align-items:center;justify-content:center;
+">
+    <div class="guest-lock-inner">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <p class="guest-lock-title" data-i18n="assets.lock.title">Restricted Access</p>
+        <p class="guest-lock-sub" data-i18n="assets.lock.sub">Sign in to access your portfolio and buy stocks.</p>
+        <a href="registration.html" class="guest-lock-btn" data-i18n="assets.lock.btn">Sign In</a>
+    </div>
+</div>
+
+
+<!-- Header -->
+<header>
+    <!-- Animated bar chart logo -->
+    <svg class="logo-assets" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- baseline -->
+        <line x1="3" y1="30" x2="31" y2="30" stroke="white" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+        <!-- bars -->
+        <rect class="bar1" x="4"  y="18" width="5" height="12" rx="1.5" fill="white" opacity="0.55"/>
+        <rect class="bar2" x="11" y="10" width="5" height="20" rx="1.5" fill="white" opacity="0.75"/>
+        <rect class="bar3" x="18" y="15" width="5" height="15" rx="1.5" fill="white" opacity="0.55"/>
+        <rect class="bar4" x="25" y="6"  width="5" height="24" rx="1.5" fill="white" opacity="0.9"/>
+        <!-- trend line -->
+        <polyline class="ticker" points="6.5,22 13.5,14 20.5,18 27.5,9" stroke="rgba(74,222,128,.7)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="app-name" data-i18n="assets.appname">Assets — M.S.E</span>
+    <div class="header-right">
+        <div class="status-badge offline" id="statusBadge">
+            <span class="status-dot"></span>
+            <span id="statusLabel">OFF</span>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- ══ LEFT: Wallet ══ -->
+    <div class="wallet-block">
+        <p class="block-label" data-i18n="assets.portfolio">Portfolio</p>
+
+        <!-- Account type tabs -->
+        <div class="account-tabs" id="accountTabs">
+            <button class="account-tab active" data-account="CTO" id="tabCTO">
+                <span class="account-tab-label">CTO</span>
+                <span class="account-tab-sub" data-i18n="assets.cto.sub">Securities Account</span>
+            </button>
+            <button class="account-tab pea-tab hidden" data-account="PEA" id="tabPEA">
+                <span class="account-tab-label">PEA</span>
+                <span class="account-tab-sub" data-i18n="assets.pea.sub">Equity Savings Plan</span>
+            </button>
+        </div>
+
+        <!-- Balance -->
+        <div class="balance-card">
+            <p class="balance-label" data-i18n="assets.balance.label">Total Balance</p>
+            <div class="balance-amount">
+                <span id="displayBalance">0,00</span>
+                <span class="balance-currency" id="balanceCurrencyLabel">USD</span>
+            </div>
+            <p class="balance-sub" data-i18n="assets.balance.sub">Updated just now</p>
+        </div>
+
+        <!-- Performance Bilan -->
+        <div class="perf-card">
+            <!-- Period tabs -->
+            <div class="perf-tabs">
+                <button class="perf-tab active" data-period="1D">1D</button>
+                <button class="perf-tab" data-period="1M">1M</button>
+                <button class="perf-tab" data-period="1Y">1Y</button>
+                <button class="perf-tab" data-period="YTD">YTD</button>
+                <button class="perf-tab" data-period="MAX">MAX</button>
+            </div>
+
+            <!-- KPI strip -->
+            <div class="perf-kpis">
+                <div class="perf-kpi">
+                    <span class="perf-kpi-label" data-i18n="assets.perf.pnl">P&amp;L</span>
+                    <span class="perf-kpi-val" id="perfPnl">—</span>
+                </div>
+                <div class="perf-kpi-sep"></div>
+                <div class="perf-kpi">
+                    <span class="perf-kpi-label" data-i18n="assets.perf.return">Return</span>
+                    <span class="perf-kpi-val" id="perfReturn">—</span>
+                </div>
+                <div class="perf-kpi-sep"></div>
+                <div class="perf-kpi">
+                    <span class="perf-kpi-label" data-i18n="assets.perf.high">High</span>
+                    <span class="perf-kpi-val" id="perfHigh">—</span>
+                </div>
+                <div class="perf-kpi-sep"></div>
+                <div class="perf-kpi">
+                    <span class="perf-kpi-label" data-i18n="assets.perf.low">Low</span>
+                    <span class="perf-kpi-val" id="perfLow">—</span>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="perf-chart-wrap">
+                <svg class="perf-chart" id="perfChart" viewBox="0 0 320 80" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="rgba(74,222,128,.35)" id="gradTop"/>
+                            <stop offset="100%" stop-color="rgba(74,222,128,0)" id="gradBot"/>
+                        </linearGradient>
+                    </defs>
+                    <path id="chartFill" fill="url(#chartGrad)"/>
+                    <polyline id="chartLine" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Y grid lines -->
+                    <line x1="0" y1="20" x2="320" y2="20" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                    <line x1="0" y1="40" x2="320" y2="40" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                    <line x1="0" y1="60" x2="320" y2="60" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                    <!-- Hover crosshair -->
+                    <line id="chartCrosshair" x1="0" y1="0" x2="0" y2="80" stroke="rgba(255,255,255,.18)" stroke-width="1" stroke-dasharray="3 2" opacity="0"/>
+                    <circle id="chartDot" cx="0" cy="0" r="3.5" fill="var(--gain)" opacity="0"/>
+                </svg>
+                <!-- Tooltip -->
+                <div class="perf-tooltip hidden" id="perfTooltip">
+                    <span class="tt-date" id="ttDate"></span>
+                    <span class="tt-val"  id="ttVal"></span>
+                </div>
+            </div>
+
+            <!-- Bottom: Gains / Losses mini stats -->
+            <div class="stats-row">
+                <div class="stat-card gain">
+                    <p class="stat-label"><span class="stat-dot"></span><span data-i18n="assets.gains">Gains</span></p>
+                    <p class="stat-value" id="displayGain">+$284</p>
+                    <p class="stat-pct" id="displayGainPct">+2.34%</p>
+                    <svg class="sparkline" width="70" height="36" viewBox="0 0 70 36">
+                        <polyline points="0,28 12,20 24,24 36,10 48,14 60,4 70,8" stroke="rgba(74,222,128,.6)" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+                <div class="stat-card loss">
+                    <p class="stat-label"><span class="stat-dot"></span><span data-i18n="assets.losses">Losses</span></p>
+                    <p class="stat-value" id="displayLoss">-$96</p>
+                    <p class="stat-pct" id="displayLossPct">-0.76%</p>
+                    <svg class="sparkline" width="70" height="36" viewBox="0 0 70 36">
+                        <polyline points="0,8 12,14 24,10 36,22 48,18 60,28 70,24" stroke="rgba(248,113,113,.6)" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fund buttons -->
+        <div class="fund-btns">
+            <button class="btn-fund btn-add" id="btnAdd">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span data-i18n="assets.addfunds">Add Funds</span>
+            </button>
+            <button class="btn-fund btn-withdraw" id="btnWithdraw">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span data-i18n="assets.withdraw">Withdraw</span>
+            </button>
+        </div>
+
+        <!-- Tax & Benefit Summary -->
+        <div class="tax-summary-card" id="taxSummaryCard">
+            <div class="tax-summary-header">
+                <span class="tax-summary-title" id="taxSummaryTitle">Performance &amp; Fiscalité — CTO</span>
+                <span class="tax-badge cto" id="taxBadge">Flat Tax 30%</span>
+            </div>
+            <div class="tax-kpis">
+                <div class="tax-kpi">
+                    <span class="tax-kpi-label" data-i18n="assets.tax.gross">Gross Capital Gain</span>
+                    <span class="tax-kpi-val" id="taxGrossPnl">—</span>
+                </div>
+                <div class="tax-kpi-sep"></div>
+                <div class="tax-kpi">
+                    <span class="tax-kpi-label" data-i18n="assets.tax.estimated">Estimated Tax</span>
+                    <span class="tax-kpi-val tax-neg" id="taxAmount">—</span>
+                </div>
+                <div class="tax-kpi-sep"></div>
+                <div class="tax-kpi tax-kpi-highlight">
+                    <span class="tax-kpi-label" data-i18n="assets.tax.net">Net Gain</span>
+                    <span class="tax-kpi-val" id="taxNetPnl">—</span>
+                </div>
+            </div>
+            <div class="tax-breakdown" id="taxBreakdown">
+                <!-- filled by JS -->
+            </div>
+            <p class="tax-disclaimer" data-i18n="assets.tax.disclaimer">* Indicative estimate. Consult a tax advisor.</p>
+        </div>
+
+        <!-- Holdings -->
+        <div class="holdings-card">
+            <div class="holdings-header">
+                <span class="holdings-title" data-i18n="assets.holdings.title">My Holdings</span>
+                <span class="holdings-count" id="holdingsCount">0 stocks</span>
+            </div>
+            <div id="holdingsList">
+                <p class="holdings-empty">No stocks yet. Browse the market →</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ RIGHT: Market ══ -->
+    <div class="market-block">
+        <p class="block-label" data-i18n="assets.market.title">Market</p>
+
+        <div class="market-card">
+            <div class="market-header">
+                <span class="market-title" data-i18n="assets.stocks.title">Available Stocks</span>
+            </div>
+
+            <div class="search-wrap">
+          <span class="search-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+                <input class="search-input" type="text" id="searchInput" placeholder="Search company or ticker…" data-i18n-ph="assets.search.placeholder" />
+            </div>
+
+            <div class="stocks-list" id="stocksList"></div>
+        </div>
+    </div>
+
+</main>
+
+<!-- ── Nav ── -->
+<nav class="sidenav" id="sidenav">
+    <a class="nav-item" href="market.html"><span data-i18n="market.nav.market">Market</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item active" href="assets.html"><span data-i18n="market.nav.assets">Assets</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item" href="registration.html"><span data-i18n="market.nav.account">Account</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item" href="settings.html"><span data-i18n="market.nav.settings">Settings</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+</nav>
+
+<!-- Modal: Add Funds -->
+<div class="modal-overlay hidden" id="modal-add">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.addfunds.title">Add Funds</p>
+        <p class="modal-subtitle" data-i18n="modal.addfunds.sub">Enter the amount you want to deposit into your wallet.</p>
+        <div class="modal-input-wrap">
+            <span class="modal-input-label" data-i18n="modal.addfunds.label">Amount</span>
+            <input class="modal-input" type="number" id="addAmount" placeholder="0.00" min="0.01" step="0.01" />
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" id="addCancel" data-i18n="modal.addfunds.cancel">Cancel</button>
+            <button class="btn-confirm-green" id="addConfirm" data-i18n="modal.addfunds.confirm">Deposit</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Withdraw -->
+<div class="modal-overlay hidden" id="modal-withdraw">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.withdraw.title">Withdraw Funds</p>
+        <p class="modal-subtitle" data-i18n="modal.withdraw.sub">Enter the amount you want to withdraw from your wallet.</p>
+        <div class="modal-input-wrap">
+            <span class="modal-input-label" data-i18n="modal.withdraw.label">Amount</span>
+            <input class="modal-input" type="number" id="withdrawAmount" placeholder="0.00" min="0.01" step="0.01" />
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" id="withdrawCancel" data-i18n="modal.withdraw.cancel">Cancel</button>
+            <button class="btn-confirm-red" id="withdrawConfirm" data-i18n="modal.withdraw.confirm">Withdraw</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Buy Stock -->
+<div class="modal-overlay hidden" id="modal-buy">
+    <div class="modal-box">
+        <p class="modal-title" id="buyModalTitle">Buy Stock</p>
+        <p class="modal-subtitle" id="buyModalPrice">Price per share: —</p>
+        <div class="modal-input-wrap">
+            <span class="modal-input-label" data-i18n="modal.buy.shares">Number of shares</span>
+            <div class="shares-counter">
+                <button class="counter-btn" id="counterMinus">−</button>
+                <span class="counter-val" id="counterVal">1</span>
+                <button class="counter-btn" id="counterPlus">+</button>
+            </div>
+        </div>
+        <p class="modal-total">Total: <span id="buyTotal">—</span></p>
+        <!-- Account selector — shown only when both CTO and PEA are active -->
+        <div id="buyAccountRow" style="display:none;gap:8px;margin-top:-4px">
+            <span style="font-family:'Exo 2',sans-serif;font-size:.65rem;color:rgba(255,255,255,.38);letter-spacing:.06em;">Compte :</span>
+            <div style="display:flex;gap:6px;margin-top:4px">
+                <button id="buyAccCTO" onclick="selectBuyAccount('CTO')"
+                        style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid rgba(96,165,250,.5);background:rgba(96,165,250,.12);color:#60a5fa;font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;cursor:pointer;transition:all .15s">
+                    CTO
+                </button>
+                <button id="buyAccPEA" onclick="selectBuyAccount('PEA')"
+                        style="flex:1;padding:7px 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:rgba(255,255,255,.4);font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;cursor:pointer;transition:all .15s">
+                    PEA
+                </button>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" id="buyCancel" data-i18n="modal.buy.cancel">Cancel</button>
+            <button class="btn-confirm-green" id="buyConfirm" data-i18n="modal.buy.confirm">Buy</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Sell Stock -->
+<div class="modal-overlay hidden" id="modal-sell">
+    <div class="modal-box">
+        <p class="modal-title" id="sellModalTitle">Sell Stock</p>
+        <p class="modal-subtitle" id="sellModalPrice">Price per share: —</p>
+        <div class="modal-input-wrap">
+            <span class="modal-input-label" data-i18n="modal.sell.shares">Number of shares</span>
+            <div class="shares-counter">
+                <button class="counter-btn" id="sellCounterMinus">−</button>
+                <span class="counter-val" id="sellCounterVal">1</span>
+                <button class="counter-btn" id="sellCounterPlus">+</button>
+            </div>
+        </div>
+        <!-- Revenue breakdown with tax -->
+        <div class="sell-tax-breakdown" id="sellTaxBreakdown">
+            <div class="sell-tax-row">
+                <span data-i18n="modal.sell.gross">Gross Revenue</span>
+                <span id="sellGross">—</span>
+            </div>
+            <div class="sell-tax-row sell-tax-row-pnl">
+                <span data-i18n="modal.sell.gain">Capital Gain</span>
+                <span id="sellPnlLine">—</span>
+            </div>
+            <div class="sell-tax-row sell-tax-row-tax">
+                <span id="sellTaxLabel">Flat Tax (30%)</span>
+                <span id="sellTaxLine" class="tax-neg">—</span>
+            </div>
+            <div class="sell-tax-row sell-tax-row-net">
+                <span data-i18n="modal.sell.net">Net Received</span>
+                <span id="sellNetLine" class="tax-pos">—</span>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" id="sellCancel" data-i18n="modal.sell.cancel">Cancel</button>
+            <button class="btn-confirm-red" id="sellConfirm" data-i18n="modal.sell.confirm">Sell</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="../JAVA_SCRIPT/mse-currency.js"></script>
+<script src="../JAVA_SCRIPT/mse-lang.js"></script>
+<script src="../JAVA_SCRIPT/assets.js"></script>
+
+<footer class="mse-footer">
+    © 2026 M.S.E — Muïo Stock Exchange
+    <span class="footer-sep">·</span>
+    <a href="mailto:abasse.minte@gmail.com" title="Email">abasse.minte@gmail.com</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-discord" title="Discord">⬡ _.__._.__._.__._.___</span>
+    <span class="footer-sep">·</span>
+    <a href="https://www.youtube.com/@MUIOOOOOOO" target="_blank" rel="noopener" title="YouTube">▶ MUÏO</a>
+</footer>
+
+</body>
+</html>

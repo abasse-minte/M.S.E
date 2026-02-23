@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n-title="settings.title">Settings — M.S.E</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../CSS/settings.css" />
+</head>
+<body>
+
+<div class="hover-oval" id="hoverOval"></div>
+
+<!-- Header -->
+<header>
+    <svg class="logo-gear" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="5.5" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.8"/>
+        <path d="M20 3v4M20 33v4M3 20h4M33 20h4M7.4 7.4l2.8 2.8M29.8 29.8l2.8 2.8M7.4 32.6l2.8-2.8M29.8 10.2l2.8-2.8"
+              stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="9" stroke="white" stroke-width="1.2"
+                stroke-dasharray="2.8 2.4" fill="none" opacity="0.35"/>
+    </svg>
+    <span class="app-name" data-i18n="settings.appname">Settings — M.S.E</span>
+    <div class="header-right" style="margin-left:auto;display:flex;align-items:center;gap:14px">
+        <div class="status-badge offline" id="statusBadge">
+            <span class="status-dot"></span>
+            <span id="statusLabel">OFF</span>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- Profile shortcut -->
+    <div class="profile-row" id="profileRow">
+        <div class="profile-avatar" id="profileAvatar">
+            <svg id="avatarIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+        </div>
+        <div class="profile-info">
+            <span class="profile-name"  id="profileName" data-i18n="settings.notsignedin">Not signed in</span>
+            <span class="profile-email" id="profileEmail"></span>
+            <span class="profile-guest" id="profileGuest" data-i18n="settings.tap.signin">Tap to sign in or create an account</span>
+        </div>
+        <div class="s-chevron">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+    </div>
+
+    <!-- Security -->
+    <section class="s-section">
+        <p class="s-label" data-i18n="settings.section.security">Security</p>
+        <div class="s-card">
+
+            <div class="s-row" id="row-change-pwd">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.changepwd.title">Change Password</span><span class="s-sub" data-i18n="settings.changepwd.sub">Update your current password</span></div>
+                </div>
+                <div class="s-row-right"><div class="s-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+            </div>
+
+            <div class="s-row" id="row-2fa">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.2fa.title">Two-Factor Authentication</span><span class="s-sub" id="tfa-sub" data-i18n="settings.2fa.disabled">Disabled</span></div>
+                </div>
+                <div class="s-row-right">
+                    <label class="toggle" onclick="event.stopPropagation()">
+                        <input type="checkbox" id="toggle-2fa"/>
+                        <span class="toggle-track"></span><span class="toggle-thumb"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="s-row danger" id="row-logout-all">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.logout.title">Log Out All Devices</span><span class="s-sub" data-i18n="settings.logout.sub">Revoke all active sessions</span></div>
+                </div>
+                <div class="s-row-right"><div class="s-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Notifications -->
+    <section class="s-section">
+        <p class="s-label" data-i18n="settings.section.notif">Notifications</p>
+        <div class="s-card">
+
+            <div class="s-row">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 7 13.5 15.5 8.5 11 1 16"/><polyline points="17 7 23 7 23 13"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.tx.title">Transaction Alerts</span><span class="s-sub" data-i18n="settings.tx.sub">Notify on every transaction</span></div>
+                </div>
+                <div class="s-row-right">
+                    <label class="toggle" onclick="event.stopPropagation()">
+                        <input type="checkbox" id="toggle-tx" checked/>
+                        <span class="toggle-track"></span><span class="toggle-thumb"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="s-row">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.balance.title">Low Balance Warning</span><span class="s-sub" data-i18n="settings.balance.sub">Alert when balance is low</span></div>
+                </div>
+                <div class="s-row-right">
+                    <label class="toggle" onclick="event.stopPropagation()">
+                        <input type="checkbox" id="toggle-balance" checked/>
+                        <span class="toggle-track"></span><span class="toggle-thumb"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="s-row">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.reports.title">Periodic Reports</span><span class="s-sub" data-i18n="settings.reports.sub">Weekly summary emails</span></div>
+                </div>
+                <div class="s-row-right">
+                    <label class="toggle" onclick="event.stopPropagation()">
+                        <input type="checkbox" id="toggle-reports"/>
+                        <span class="toggle-track"></span><span class="toggle-thumb"></span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Preferences -->
+    <section class="s-section">
+        <p class="s-label" data-i18n="settings.section.prefs">Preferences</p>
+        <div class="s-card">
+
+            <div class="s-row" id="row-language">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.lang.title">Language</span><span class="s-sub" data-i18n="settings.lang.sub">Display language</span></div>
+                </div>
+                <div class="s-row-right">
+                    <span class="s-value" id="val-lang">English</span>
+                    <div class="s-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                </div>
+            </div>
+
+            <div class="s-row" id="row-format">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.format.title">Amount Format</span><span class="s-sub" data-i18n="settings.format.sub">How numbers are displayed</span></div>
+                </div>
+                <div class="s-row-right">
+                    <span class="s-value" id="val-format">1,234.56</span>
+                    <div class="s-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About & Support -->
+    <section class="s-section">
+        <p class="s-label" data-i18n="settings.section.about">About &amp; Support</p>
+        <div class="s-card">
+
+            <div class="s-row" style="cursor:default">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.version.title">App Version</span><span class="s-sub" data-i18n="settings.version.sub">M.S.E Platform</span></div>
+                </div>
+                <div class="s-row-right"><span class="version-tag">v1.0.0</span></div>
+            </div>
+
+            <div class="s-row" id="row-support">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.support.title">Help &amp; Support</span><span class="s-sub" data-i18n="settings.support.sub">Contact our support team</span></div>
+                </div>
+                <div class="s-row-right"><div class="s-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+            </div>
+
+            <div class="s-row" id="row-legal">
+                <div class="s-row-left">
+                    <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                    <div class="s-text"><span class="s-title" data-i18n="settings.legal.title">Legal Notices</span><span class="s-sub" data-i18n="settings.legal.sub">Terms, Privacy Policy</span></div>
+                </div>
+                <div class="s-row-right"><div class="s-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- Nav -->
+<nav class="sidenav" id="sidenav">
+    <a class="nav-item" href="market.html"><span data-i18n="market.nav.market">Market</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item" href="assets.html"><span data-i18n="market.nav.assets">Assets</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item" href="registration.html"><span data-i18n="market.nav.account">Account</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+    <a class="nav-item active" href="settings.html"><span data-i18n="market.nav.settings">Settings</span><div class="nav-icon-wrap"><svg class="feather" viewBox="0 0 60 80" fill="none"><path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/><line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/></svg></div></a>
+</nav>
+
+<!-- Modal: Change Password -->
+<div class="modal-overlay hidden" id="modal-change-pwd">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.changepwd.title">Change Password</p>
+        <div class="modal-field">
+            <input class="modal-input" type="password" id="new-pwd" placeholder="New password" data-i18n-ph="modal.changepwd.ph" autocomplete="new-password"/>
+            <button class="modal-eye" id="eye-new-pwd" type="button">
+                <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-hide" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+        </div>
+        <div class="pwd-rules">
+            <div class="pwd-rule" id="r-lower"><span class="rule-dot"></span>One lowercase letter</div>
+            <div class="pwd-rule" id="r-upper"><span class="rule-dot"></span>One uppercase letter</div>
+            <div class="pwd-rule" id="r-digit"><span class="rule-dot"></span>One number</div>
+            <div class="pwd-rule" id="r-special"><span class="rule-dot"></span>One special character</div>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" data-close="modal-change-pwd" data-i18n="modal.changepwd.cancel">Cancel</button>
+            <button class="btn-save" id="save-pwd" disabled data-i18n="modal.changepwd.save">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: 2FA -->
+<div class="modal-overlay hidden" id="modal-2fa">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.2fa.title">Two-Factor Auth</p>
+        <p class="modal-desc" data-i18n="modal.2fa.desc">Scan the QR code with your authenticator app, then enter the 6-digit code.</p>
+        <div class="qr-wrap">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#0d1b2e">
+                <rect x="10" y="10" width="30" height="30" rx="3" fill="none" stroke="#0d1b2e" stroke-width="4"/>
+                <rect x="18" y="18" width="14" height="14" rx="1"/>
+                <rect x="60" y="10" width="30" height="30" rx="3" fill="none" stroke="#0d1b2e" stroke-width="4"/>
+                <rect x="68" y="18" width="14" height="14" rx="1"/>
+                <rect x="10" y="60" width="30" height="30" rx="3" fill="none" stroke="#0d1b2e" stroke-width="4"/>
+                <rect x="18" y="68" width="14" height="14" rx="1"/>
+                <rect x="60" y="60" width="8" height="8"/><rect x="72" y="60" width="8" height="8"/>
+                <rect x="60" y="72" width="8" height="8"/><rect x="72" y="72" width="8" height="8"/>
+                <rect x="42" y="10" width="8" height="8"/><rect x="42" y="26" width="8" height="8"/>
+                <rect x="42" y="42" width="8" height="8"/><rect x="10" y="42" width="8" height="8"/>
+                <rect x="26" y="42" width="8" height="8"/>
+            </svg>
+        </div>
+        <p class="qr-secret">MSE2 — 4A7K</p>
+        <p class="qr-hint" data-i18n="modal.2fa.secret">Or enter this key manually in your authenticator app</p>
+        <div class="modal-field">
+            <input class="modal-input" type="text" id="tfa-code" placeholder="000000" maxlength="6"
+                   style="letter-spacing:.4em;text-align:center;font-size:1.1rem"/>
+        </div>
+        <p class="modal-error hidden" id="tfa-error" data-i18n="modal.2fa.error">Incorrect code. Please try again.</p>
+        <div class="modal-actions">
+            <button class="btn-cancel" id="tfa-cancel" data-i18n="modal.2fa.cancel">Cancel</button>
+            <button class="btn-save"   id="tfa-verify" data-i18n="modal.2fa.verify">Verify</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Log Out All -->
+<div class="modal-overlay hidden" id="modal-logout-all">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.logout.title">Log Out All Devices?</p>
+        <p class="modal-desc" data-i18n="modal.logout.desc">All active sessions will be terminated immediately. You will need to sign in again on each device.</p>
+        <div class="modal-actions">
+            <button class="btn-cancel" data-close="modal-logout-all" data-i18n="modal.logout.cancel">Cancel</button>
+            <button class="btn-danger" id="confirm-logout-all" data-i18n="modal.logout.confirm">Log Out All</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Language -->
+<div class="modal-overlay hidden" id="modal-language">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.lang.title">Language</p>
+        <select class="modal-select" id="sel-lang">
+            <option value="English">English</option>
+            <option value="Français">Français</option>
+            <option value="Español">Español</option>
+            <option value="Deutsch">Deutsch</option>
+            <option value="中文">中文</option>
+            <option value="العربية">العربية</option>
+            <option value="Português">Português</option>
+            <option value="日本語">日本語</option>
+        </select>
+        <div class="modal-actions">
+            <button class="btn-cancel" data-close="modal-language" data-i18n="modal.lang.cancel">Cancel</button>
+            <button class="btn-save"   id="save-lang" data-i18n="modal.lang.save">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Amount Format -->
+<div class="modal-overlay hidden" id="modal-format">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.format.title">Amount Format</p>
+        <select class="modal-select" id="sel-format">
+            <option value="1,234.56">1,234.56  (en-US)</option>
+            <option value="1 234,56">1 234,56  (fr-FR)</option>
+            <option value="1.234,56">1.234,56  (de-DE)</option>
+            <option value="1'234.56">1'234.56  (ch)</option>
+        </select>
+        <div class="modal-actions">
+            <button class="btn-cancel" data-close="modal-format" data-i18n="modal.format.cancel">Cancel</button>
+            <button class="btn-save"   id="save-format" data-i18n="modal.format.save">Save</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Legal -->
+<div class="modal-overlay hidden" id="modal-legal">
+    <div class="modal-box">
+        <p class="modal-title" data-i18n="modal.legal.title">Legal Notices</p>
+        <p class="modal-desc" style="line-height:1.85" id="legal-body">
+            <strong>Terms of Service</strong><br>
+            By using M.S.E you agree to our terms of service and acceptable use policy.<br><br>
+            <strong>Privacy Policy</strong><br>
+            We protect your personal data in accordance with GDPR and applicable regulations.<br><br>
+            <strong>Licenses</strong><br>
+            © 2025 M.S.E. All rights reserved.
+        </p>
+        <div class="modal-actions">
+            <button class="btn-save" data-close="modal-legal" style="flex:1" data-i18n="modal.legal.close">Close</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer class="mse-footer">
+    © 2026 M.S.E — Muïo Stock Exchange
+    <span class="footer-sep">·</span>
+    <a href="mailto:abasse.minte@gmail.com" title="Email">abasse.minte@gmail.com</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-discord" title="Discord">⬡ _.__._.__._.__._.___</span>
+    <span class="footer-sep">·</span>
+    <a href="https://www.youtube.com/@MUIOOOOOOO" target="_blank" rel="noopener" title="YouTube">▶ MUÏO</a>
+</footer>
+
+<script src="../JAVA_SCRIPT/mse-currency.js"></script>
+<script src="../JAVA_SCRIPT/mse-lang.js"></script>
+<script src="../JAVA_SCRIPT/settings.js"></script>
+</body>
+</html>

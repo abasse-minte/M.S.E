@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Market — M.S.E</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+
+    <!-- Stylesheet — chemin relatif depuis HTML/ vers CSS/ -->
+    <link rel="stylesheet" href="../CSS/market.css"/>
+</head>
+<body>
+
+
+<!-- ============================================================
+     CURSOR OVAL
+     The glowing oval that follows the mouse along the sidebar nav.
+     Moves and appears / disappears via JavaScript.
+     ============================================================ -->
+<div class="hover-oval" id="hoverOval"></div>
+
+
+<!-- ============================================================
+     HEADER
+     Top bar of the page. Contains:
+       - The globe logo (animated SVG with meridians and a pulse ring)
+       - The app name "Market — M.S.E"
+       - Right side: data freshness label, currency toggle (injected
+         by mse-currency.js), and the ON / OFF connection status badge
+     ============================================================ -->
+<header>
+    <svg class="logo-market" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="14.5" stroke="white" stroke-width="1.2" opacity="0.5"/>
+        <ellipse class="meridian"  cx="17" cy="17" rx="6"  ry="14.5" stroke="rgba(255,255,255,.4)" stroke-width="1"   fill="none"/>
+        <ellipse class="meridian2" cx="17" cy="17" rx="11" ry="14.5" stroke="rgba(255,255,255,.2)" stroke-width="1"   fill="none" stroke-dasharray="3 2"/>
+        <line x1="2.5"  y1="17" x2="31.5" y2="17" stroke="rgba(255,255,255,.25)" stroke-width=".8"/>
+        <line x1="5"    y1="10" x2="29"   y2="10" stroke="rgba(255,255,255,.15)" stroke-width=".7"/>
+        <line x1="5"    y1="24" x2="29"   y2="24" stroke="rgba(255,255,255,.15)" stroke-width=".7"/>
+        <circle class="pulse-ring" cx="17" cy="17" r="6" fill="rgba(34,211,238,.18)" stroke="#22d3ee" stroke-width="1"/>
+        <circle cx="17" cy="17" r="2" fill="white" opacity=".9"/>
+    </svg>
+
+    <span class="app-name" data-i18n="market.appname">Market — M.S.E</span>
+
+    <div class="header-right">
+        <div class="data-freshness">
+            <span class="freshness-dot"></span>
+            <span>EOD data &middot; Feb 19, 2026 &middot; 16:00 EST</span>
+        </div>
+
+        <!-- Language toggle — EN / FR -->
+        <button class="lang-toggle" id="langToggleBtn" aria-label="Change language">
+            <span class="lt-en lt-active">EN</span>
+            <span class="lt-sep">·</span>
+            <span class="lt-fr">FR</span>
+        </button>
+
+        <!-- Currency toggle — USD / EUR -->
+        <button class="currency-toggle" id="currencyToggleBtn" aria-label="Change currency">
+            <span class="ct-usd ct-active">USD</span>
+            <span class="ct-sep">·</span>
+            <span class="ct-eur">EUR</span>
+        </button>
+
+        <!-- Connection status badge -->
+        <div class="status-badge offline" id="statusBadge">
+            <span class="status-dot"></span>
+            <span id="statusLabel">OFF</span>
+        </div>
+    </div>
+</header>
+
+
+<!-- ============================================================
+     TICKER TAPE
+     The scrolling horizontal bar just below the header.
+     It shows a live-style stream of stock symbols and prices.
+     The content (#tickerScroll) is filled and animated by market.js.
+     ============================================================ -->
+<div class="ticker-tape">
+    <div class="ticker-scroll" id="tickerScroll"></div>
+</div>
+
+
+<!-- ============================================================
+     MAIN CONTENT AREA
+     The full page layout below the ticker.
+     Contains all the market data blocks stacked vertically.
+     ============================================================ -->
+<main>
+
+
+    <!-- ============================================================
+         HERO INDICES
+         The six large index cards at the top of the page.
+         Each card shows: index name, current value, daily change,
+         and a small sparkline chart (inline SVG polyline).
+         Green card = positive day / Red card = negative day.
+         ============================================================ -->
+    <div class="hero-indices">
+
+        <div class="idx-card pos-card">
+            <p class="idx-name">S&amp;P 500</p>
+            <p class="idx-val">6,129.58</p>
+            <p class="idx-chg pos">▲ +28.42 &nbsp;(+0.47%)</p>
+            <svg class="idx-spark" width="80" height="40" viewBox="0 0 80 40">
+                <polyline points="0,32 13,26 26,28 40,16 53,19 66,10 80,12" stroke="rgba(74,222,128,.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="idx-card pos-card">
+            <p class="idx-name">NASDAQ</p>
+            <p class="idx-val">19,954.30</p>
+            <p class="idx-chg pos">▲ +145.60 &nbsp;(+0.73%)</p>
+            <svg class="idx-spark" width="80" height="40" viewBox="0 0 80 40">
+                <polyline points="0,30 13,22 26,25 40,14 53,16 66,8 80,10" stroke="rgba(74,222,128,.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="idx-card neg-card">
+            <p class="idx-name">DOW JONES</p>
+            <p class="idx-val">44,176.65</p>
+            <p class="idx-chg neg">▼ −68.12 &nbsp;(−0.15%)</p>
+            <svg class="idx-spark" width="80" height="40" viewBox="0 0 80 40">
+                <polyline points="0,12 13,16 26,13 40,20 53,18 66,26 80,28" stroke="rgba(248,113,113,.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="idx-card pos-card">
+            <p class="idx-name">DAX 40</p>
+            <p class="idx-val">22,851.98</p>
+            <p class="idx-chg pos">▲ +312.44 &nbsp;(+1.38%)</p>
+            <svg class="idx-spark" width="80" height="40" viewBox="0 0 80 40">
+                <polyline points="0,28 13,22 26,18 40,12 53,10 66,6 80,4" stroke="rgba(74,222,128,.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="idx-card neg-card">
+            <p class="idx-name">NIKKEI 225</p>
+            <p class="idx-val">38,776.94</p>
+            <p class="idx-chg neg">▼ −132.88 &nbsp;(−0.34%)</p>
+            <svg class="idx-spark" width="80" height="40" viewBox="0 0 80 40">
+                <polyline points="0,10 13,14 26,12 40,18 53,22 66,28 80,26" stroke="rgba(248,113,113,.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="idx-card pos-card">
+            <p class="idx-name">CAC 40</p>
+            <p class="idx-val">8,162.73</p>
+            <p class="idx-chg pos">▲ +54.18 &nbsp;(+0.67%)</p>
+            <svg class="idx-spark" width="80" height="40" viewBox="0 0 80 40">
+                <polyline points="0,26 13,20 26,22 40,16 53,14 66,10 80,8" stroke="rgba(74,222,128,.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+        </div>
+
+    </div><!-- /hero-indices -->
+
+
+    <!-- ============================================================
+         GLOBAL EQUITIES TABLE
+         A full data table of individual stocks from around the world.
+         Columns: Company name, Price (USD), Change, % Day, 52W Range, Market Cap.
+         The table body (#equitiesTbody) is filled by market.js using the EQUITIES array.
+         The "Add" and "Remove" buttons let the user manage the stock list.
+         ============================================================ -->
+    <div class="mcard block-equities">
+        <div class="mcard-header">
+        <span class="mcard-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+            <polyline points="16 7 22 7 22 13"/>
+          </svg>
+          <span data-i18n="market.equities.title">Global Equities</span>
+          <span class="mcard-badge" id="equitiesBadge" data-i18n="market.equities.badge">30 stocks</span>
+        </span>
+            <div style="display:flex;align-items:center;gap:8px">
+                <button class="mse-add-btn" id="btnAddCompany" title="Add a company">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add
+                </button>
+                <button class="mse-rm-btn" id="btnRemoveCompany" title="Remove a company">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Remove
+                </button>
+                <span class="mcard-time">EOD &middot; Feb 19, 2026</span>
+            </div>
+        </div>
+        <table class="mtable">
+            <thead>
+            <tr>
+                <th data-i18n="market.th.company">Company</th>
+                <th data-i18n="market.th.price">Price (USD)</th>
+                <th data-i18n="market.th.change">Change</th>
+                <th data-i18n="market.th.day">% Day</th>
+                <th data-i18n="market.th.52w">52W Range</th>
+                <th data-i18n="market.th.cap">Mkt Cap</th>
+            </tr>
+            </thead>
+            <tbody id="equitiesTbody"></tbody>
+        </table>
+    </div>
+
+
+    <!-- ============================================================
+         CRYPTO BLOCK
+         A card showing the top 10 cryptocurrencies.
+         Each entry shows: name, symbol, price, 24h change, market cap.
+         The content (#cryptoList) is built by market.js using the CRYPTO array.
+         Marked as "24h · Live" to indicate near real-time data.
+         ============================================================ -->
+    <div class="mcard block-crypto">
+        <div class="mcard-header">
+        <span class="mcard-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <span data-i18n="market.crypto.title">Crypto</span>
+          <span class="mcard-badge" data-i18n="market.crypto.badge">10 assets</span>
+        </span>
+            <span class="mcard-time"><span data-i18n="market.crypto.live">24h · Live</span></span>
+        </div>
+        <div id="cryptoList"></div>
+    </div>
+
+
+    <!-- ============================================================
+         FOREX TABLE
+         A table of major currency pairs (ex: EUR/USD, GBP/USD...).
+         Columns: Pair, Exchange Rate, Change, % Change.
+         The table body (#forexTbody) is filled by market.js using the FOREX array.
+         ============================================================ -->
+    <div class="mcard block-forex">
+        <div class="mcard-header">
+        <span class="mcard-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span data-i18n="market.forex.title">Forex</span>
+          <span class="mcard-badge" data-i18n="market.forex.badge">Major pairs</span>
+        </span>
+            <span class="mcard-time">EOD &middot; Feb 19, 2026</span>
+        </div>
+        <table class="mtable">
+            <thead>
+            <tr><th>Pair</th><th>Rate</th><th data-i18n="market.th.change">Change</th><th>%</th></tr>
+            </thead>
+            <tbody id="forexTbody"></tbody>
+        </table>
+    </div>
+
+
+    <!-- ============================================================
+         COMMODITIES TABLE
+         A table of physical market assets (gold, oil, gas, wheat...).
+         Columns: Asset name, Price, Unit (oz / bbl / lb...), Change, %.
+         The table body (#commoditiesTbody) is filled by market.js using the COMMODITIES array.
+         ============================================================ -->
+    <div class="mcard block-commodities">
+        <div class="mcard-header">
+        <span class="mcard-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span data-i18n="market.commodities.title">Commodities</span>
+          <span class="mcard-badge" data-i18n="market.commodities.badge">10 assets</span>
+        </span>
+            <span class="mcard-time">EOD &middot; Feb 19, 2026</span>
+        </div>
+        <table class="mtable">
+            <thead>
+            <tr><th>Asset</th><th>Price</th><th>Unit</th><th data-i18n="market.th.change">Change</th><th>%</th></tr>
+            </thead>
+            <tbody id="commoditiesTbody"></tbody>
+        </table>
+    </div>
+
+
+    <!-- ============================================================
+         GOVERNMENT BONDS TABLE
+         A table of sovereign bond yields from major economies.
+         Columns: Bond name (ex: US 10Y Treasury), Yield %, Change in basis
+         points (bps), and the bond's current market price.
+         The table body (#bondsTbody) is filled by market.js using the BONDS array.
+         ============================================================ -->
+    <div class="mcard block-bonds">
+        <div class="mcard-header">
+        <span class="mcard-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <span data-i18n="market.bonds.title">Gov. Bonds</span>
+          <span class="mcard-badge" data-i18n="market.bonds.badge">Yields</span>
+        </span>
+            <span class="mcard-time">EOD &middot; Feb 19, 2026</span>
+        </div>
+        <table class="mtable">
+            <thead>
+            <tr><th data-i18n="market.th.bond">Bond</th><th data-i18n="market.th.yield">Yield</th><th data-i18n="market.th.bps">Change (bps)</th><th data-i18n="market.th.bprice">Price</th></tr>
+            </thead>
+            <tbody id="bondsTbody"></tbody>
+        </table>
+    </div>
+
+
+</main>
+
+
+<!-- ============================================================
+     SIDEBAR NAVIGATION
+     The vertical nav fixed to the right edge of the screen.
+     Four links: Market, Assets, Account, Settings.
+     The active page gets a highlighted border around its icon.
+     The cursor oval (#hoverOval) snaps to each icon on hover.
+     ============================================================ -->
+<nav class="sidenav" id="sidenav">
+    <a class="nav-item active" href="market.html">
+        <span data-i18n="market.nav.market">Market</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none">
+                <path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/>
+                <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+            </svg>
+        </div>
+    </a>
+    <a class="nav-item" href="assets.html">
+        <span data-i18n="market.nav.assets">Assets</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none">
+                <path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/>
+                <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+            </svg>
+        </div>
+    </a>
+    <a class="nav-item" href="registration.html">
+        <span data-i18n="market.nav.account">Account</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none">
+                <path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/>
+                <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+            </svg>
+        </div>
+    </a>
+    <a class="nav-item" href="settings.html">
+        <span data-i18n="market.nav.settings">Settings</span>
+        <div class="nav-icon-wrap">
+            <svg class="feather" viewBox="0 0 60 80" fill="none">
+                <path d="M30 2 C50 10,60 30,45 55 C35 70,28 75,25 78 C26 65,32 50,28 35 C24 20,14 18,10 22 C18 10,22 4,30 2Z" fill="currentColor" opacity="0.85"/>
+                <line x1="25" y1="78" x2="30" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
+            </svg>
+        </div>
+    </a>
+</nav>
+
+
+<!-- ============================================================
+     SCRIPTS
+     Loaded at the bottom so the full DOM is ready before any JS runs.
+       - mse-currency.js : global currency manager (USD / EUR toggle),
+                           injects the currency button into the header
+       - mse-lang.js     : language manager (EN / FR toggle),
+                           handles all data-i18n translations
+       - market.js       : fills all the tables and cards with data,
+                           manages the ticker tape, add/remove companies
+     ============================================================ -->
+<script src="../JAVA_SCRIPT/mse-currency.js"></script>
+<script src="../JAVA_SCRIPT/mse-lang.js"></script>
+<script src="../JAVA_SCRIPT/market.js"></script>
+
+<footer class="mse-footer">
+    © 2026 M.S.E — Muïo Stock Exchange
+    <span class="footer-sep">·</span>
+    <a href="mailto:abasse.minte@gmail.com" title="Email">abasse.minte@gmail.com</a>
+    <span class="footer-sep">·</span>
+    <span class="footer-discord" title="Discord">⬡ _.__._.__._.__._.___</span>
+    <span class="footer-sep">·</span>
+    <a href="https://www.youtube.com/@MUIOOOOOOO" target="_blank" rel="noopener" title="YouTube">▶ MUÏO</a>
+</footer>
+
+</body>
+</html>
