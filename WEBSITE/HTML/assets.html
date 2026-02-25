@@ -146,16 +146,16 @@
             <div class="stats-row">
                 <div class="stat-card gain">
                     <p class="stat-label"><span class="stat-dot"></span><span data-i18n="assets.gains">Gains</span></p>
-                    <p class="stat-value" id="displayGain">+$284</p>
-                    <p class="stat-pct" id="displayGainPct">+2.34%</p>
+                    <p class="stat-value" id="displayGain">+$0.00</p>
+                    <p class="stat-pct" id="displayGainPct">+0.00%</p>
                     <svg class="sparkline" width="70" height="36" viewBox="0 0 70 36">
                         <polyline points="0,28 12,20 24,24 36,10 48,14 60,4 70,8" stroke="rgba(74,222,128,.6)" stroke-width="1.5" fill="none"/>
                     </svg>
                 </div>
                 <div class="stat-card loss">
                     <p class="stat-label"><span class="stat-dot"></span><span data-i18n="assets.losses">Losses</span></p>
-                    <p class="stat-value" id="displayLoss">-$96</p>
-                    <p class="stat-pct" id="displayLossPct">-0.76%</p>
+                    <p class="stat-value" id="displayLoss">-$0.00</p>
+                    <p class="stat-pct" id="displayLossPct">-0.00%</p>
                     <svg class="sparkline" width="70" height="36" viewBox="0 0 70 36">
                         <polyline points="0,8 12,14 24,10 36,22 48,18 60,28 70,24" stroke="rgba(248,113,113,.6)" stroke-width="1.5" fill="none"/>
                     </svg>
@@ -354,19 +354,300 @@
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<script src="../JAVA_SCRIPT/mse-currency.js"></script>
-<script src="../JAVA_SCRIPT/mse-lang.js"></script>
-<script src="../JAVA_SCRIPT/assets.js"></script>
+<script src="../JAVA_SCRIPT/mse-currency.js" defer></script>
+<script src="../JAVA_SCRIPT/mse-lang.js" defer></script>
+<script src="../JAVA_SCRIPT/assets.js" defer></script>
+
+<!-- ── Script inline autonome : Add/Withdraw + Buy/Sell stocks ── -->
+<script>
+    (function() {
+
+        /* ══════════════════════════════════════════════
+           DONNÉES STOCKS (copie locale pour autonomie)
+           ══════════════════════════════════════════════ */
+        var INLINE_STOCKS = [
+            { name:'Apple Inc.',           sym:'AAPL',     price:243.08  },
+            { name:'Microsoft Corp.',      sym:'MSFT',     price:408.52  },
+            { name:'NVIDIA Corp.',         sym:'NVDA',     price:138.85  },
+            { name:'Amazon.com Inc.',      sym:'AMZN',     price:228.14  },
+            { name:'Alphabet Inc.',        sym:'GOOGL',    price:192.28  },
+            { name:'Meta Platforms',       sym:'META',     price:731.28  },
+            { name:'Tesla Inc.',           sym:'TSLA',     price:338.74  },
+            { name:'Berkshire Hathaway B', sym:'BRK.B',    price:492.16  },
+            { name:'JPMorgan Chase',       sym:'JPM',      price:273.48  },
+            { name:'Visa Inc.',            sym:'V',        price:349.22  },
+            { name:'LVMH Moët Hennessy',   sym:'MC.PA',    price:647.20  },
+            { name:'ASML Holding',         sym:'ASML',     price:662.45  },
+            { name:'SAP SE',               sym:'SAP',      price:276.30  },
+            { name:'Nestlé SA',            sym:'NESN',     price:76.14   },
+            { name:'Roche Holding',        sym:'ROG',      price:249.50  },
+            { name:'Toyota Motor',         sym:'TM',       price:172.34  },
+            { name:'Samsung Electronics',  sym:'SSNLF',    price:52.80   },
+            { name:'Tencent Holdings',     sym:'TCEHY',    price:58.12   },
+            { name:'TSMC',                 sym:'TSM',      price:193.82  },
+            { name:'Alibaba Group',        sym:'BABA',     price:126.44  },
+            { name:'Saudi Aramco',         sym:'2222',     price:6.82    },
+            { name:'HSBC Holdings',        sym:'HSBC',     price:52.14   },
+            { name:'Novartis AG',          sym:'NVS',      price:108.62  },
+            { name:'Shell plc',            sym:'SHEL',     price:34.28   },
+            { name:'BHP Group',            sym:'BHP',      price:49.14   },
+            { name:'Rio Tinto',            sym:'RIO',      price:58.30   },
+            { name:'Reliance Industries',  sym:'RELIANCE', price:1244.50 },
+            { name:'Infosys Ltd.',         sym:'INFY',     price:22.84   },
+            { name:'Ping An Insurance',    sym:'PNGAY',    price:11.62   },
+            { name:'Prosus NV',            sym:'PRX',      price:36.48   },
+        ];
+        function _getStockPrice(sym) {
+            // Priorité aux custom stocks du localStorage
+            try {
+                var custom = JSON.parse(localStorage.getItem('mse_custom_equities') || '[]');
+                var c = custom.find(function(s){ return s.sym === sym; });
+                if (c) return c.price;
+            } catch(e) {}
+            var s = INLINE_STOCKS.find(function(s){ return s.sym === sym; });
+            return s ? s.price : null;
+        }
+        function _getStockName(sym) {
+            try {
+                var custom = JSON.parse(localStorage.getItem('mse_custom_equities') || '[]');
+                var c = custom.find(function(s){ return s.sym === sym; });
+                if (c) return c.name;
+            } catch(e) {}
+            var s = INLINE_STOCKS.find(function(s){ return s.sym === sym; });
+            return s ? s.name : sym;
+        }
+
+        /* ══════════════════════════════════════════════
+           HELPERS WALLET / HOLDINGS
+           ══════════════════════════════════════════════ */
+        function _getWallet() {
+            try { return JSON.parse(localStorage.getItem('mse_wallet') || '{"CTO":0,"PEA":0}'); }
+            catch(e) { return {CTO:0,PEA:0}; }
+        }
+        function _setWallet(w) {
+            try { localStorage.setItem('mse_wallet', JSON.stringify(w)); } catch(e) {}
+        }
+        function _getHoldings() {
+            try {
+                var h = JSON.parse(localStorage.getItem('mse_holdings') || '{}');
+                if (!h.CTO) h.CTO = {};
+                if (!h.PEA) h.PEA = {};
+                return h;
+            } catch(e) { return {CTO:{},PEA:{}}; }
+        }
+        function _setHoldings(h) {
+            try { localStorage.setItem('mse_holdings', JSON.stringify(h)); } catch(e) {}
+        }
+        function _getActiveAccount() {
+            var active = document.querySelector('.account-tab.active');
+            return (active && active.dataset.account) ? active.dataset.account : 'CTO';
+        }
+        function _showToast(msg) {
+            var el = document.getElementById('toast');
+            if (!el) return;
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(function(){ el.classList.remove('show'); }, 3500);
+        }
+        function _rerender() {
+            if (typeof renderAll === 'function') try { renderAll(); } catch(e) {}
+            if (typeof renderStatCards === 'function') try { renderStatCards(); } catch(e) {}
+            // Fallback: update balance display directly
+            var wallet = _getWallet();
+            var acc = _getActiveAccount();
+            var bal = wallet[acc] || 0;
+            var el = document.getElementById('displayBalance');
+            if (el) el.textContent = bal.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+        }
+
+        /* ══════════════════════════════════════════════
+           BUY MODAL STATE
+           ══════════════════════════════════════════════ */
+        var _buySym    = null;
+        var _buyName   = null;
+        var _buyPrice  = 0;
+        var _buyShares = 1;
+
+        function _openBuyModal(sym) {
+            var price = _getStockPrice(sym);
+            if (!price) { _showToast('⚠ Action introuvable : ' + sym); return; }
+            _buySym    = sym;
+            _buyName   = _getStockName(sym);
+            _buyPrice  = price;
+            _buyShares = 1;
+
+            var modal = document.getElementById('modal-buy');
+            if (!modal) return;
+
+            var titleEl = document.getElementById('buyModalTitle');
+            var priceEl = document.getElementById('buyModalPrice');
+            var cntEl   = document.getElementById('counterVal');
+            if (titleEl) titleEl.textContent = 'Acheter — ' + sym;
+            if (priceEl) priceEl.textContent = 'Prix unitaire : $' + price.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+            if (cntEl)   cntEl.textContent = '1';
+
+            // Masquer le sélecteur de compte (géré par l'onglet actif)
+            var row = document.getElementById('buyAccountRow');
+            if (row) row.style.display = 'none';
+
+            _updateBuyTotal();
+            modal.classList.remove('hidden');
+        }
+
+        function _updateBuyTotal() {
+            var total   = _buyPrice * _buyShares;
+            var acc     = _getActiveAccount();
+            var wallet  = _getWallet();
+            var bal     = wallet[acc] || 0;
+            var canBuy  = total <= bal;
+
+            var confirmBtn = document.getElementById('buyConfirm');
+            var totalEl    = document.getElementById('buyTotal');
+            if (confirmBtn) {
+                confirmBtn.disabled      = !canBuy;
+                confirmBtn.style.opacity = canBuy ? '1' : '0.45';
+                confirmBtn.style.cursor  = canBuy ? 'pointer' : 'not-allowed';
+            }
+            if (totalEl) {
+                totalEl.textContent = '$' + total.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+                if (!canBuy) totalEl.textContent += '  ⚠ Solde insuffisant ($' + bal.toFixed(2) + ')';
+                totalEl.style.color = canBuy ? 'var(--gain, #4ade80)' : 'var(--loss, #f87171)';
+            }
+        }
+
+        /* ══════════════════════════════════════════════
+           INIT — attacher tous les handlers
+           ══════════════════════════════════════════════ */
+        document.addEventListener('DOMContentLoaded', function() {
+
+            /* ── Add Funds ── */
+            var btnAdd = document.getElementById('btnAdd');
+            if (btnAdd) btnAdd.addEventListener('click', function() {
+                var inp = document.getElementById('addAmount');
+                if (inp) inp.value = '';
+                var modal = document.getElementById('modal-add');
+                if (modal) modal.classList.remove('hidden');
+                if (inp) setTimeout(function(){ inp.focus(); }, 60);
+            });
+            var addCancel = document.getElementById('addCancel');
+            if (addCancel) addCancel.addEventListener('click', function() {
+                document.getElementById('modal-add').classList.add('hidden');
+            });
+            var addConfirm = document.getElementById('addConfirm');
+            if (addConfirm) addConfirm.addEventListener('click', function() {
+                var raw = (document.getElementById('addAmount').value || '').replace(',', '.').trim();
+                var amt = parseFloat(raw);
+                if (isNaN(amt) || amt <= 0) { _showToast('⚠ Montant invalide.'); return; }
+                var acc = _getActiveAccount();
+                var wallet = _getWallet();
+                wallet[acc] = (wallet[acc] || 0) + amt;
+                _setWallet(wallet);
+                document.getElementById('modal-add').classList.add('hidden');
+                _showToast('✓ +$' + amt.toFixed(2) + ' déposé dans ' + acc);
+                _rerender();
+            });
+
+            /* ── Withdraw ── */
+            var btnWithdraw = document.getElementById('btnWithdraw');
+            if (btnWithdraw) btnWithdraw.addEventListener('click', function() {
+                var inp = document.getElementById('withdrawAmount');
+                if (inp) inp.value = '';
+                var modal = document.getElementById('modal-withdraw');
+                if (modal) modal.classList.remove('hidden');
+                if (inp) setTimeout(function(){ inp.focus(); }, 60);
+            });
+            var withdrawCancel = document.getElementById('withdrawCancel');
+            if (withdrawCancel) withdrawCancel.addEventListener('click', function() {
+                document.getElementById('modal-withdraw').classList.add('hidden');
+            });
+            var withdrawConfirm = document.getElementById('withdrawConfirm');
+            if (withdrawConfirm) withdrawConfirm.addEventListener('click', function() {
+                var raw = (document.getElementById('withdrawAmount').value || '').replace(',', '.').trim();
+                var amt = parseFloat(raw);
+                if (isNaN(amt) || amt <= 0) { _showToast('⚠ Montant invalide.'); return; }
+                var acc = _getActiveAccount();
+                var wallet = _getWallet();
+                var bal = wallet[acc] || 0;
+                if (amt > bal) { _showToast('⚠ Solde insuffisant ($' + bal.toFixed(2) + ')'); return; }
+                wallet[acc] = bal - amt;
+                _setWallet(wallet);
+                document.getElementById('modal-withdraw').classList.add('hidden');
+                _showToast('✓ $' + amt.toFixed(2) + ' retiré de ' + acc);
+                _rerender();
+            });
+
+            /* ── Buy : compteur +/- ── */
+            var counterMinus = document.getElementById('counterMinus');
+            var counterPlus  = document.getElementById('counterPlus');
+            if (counterMinus) counterMinus.addEventListener('click', function() {
+                if (_buyShares > 1) { _buyShares--; document.getElementById('counterVal').textContent = _buyShares; _updateBuyTotal(); }
+            });
+            if (counterPlus) counterPlus.addEventListener('click', function() {
+                _buyShares++; document.getElementById('counterVal').textContent = _buyShares; _updateBuyTotal();
+            });
+
+            /* ── Buy : Cancel ── */
+            var buyCancel = document.getElementById('buyCancel');
+            if (buyCancel) buyCancel.addEventListener('click', function() {
+                document.getElementById('modal-buy').classList.add('hidden');
+            });
+
+            /* ── Buy : Confirm ── */
+            var buyConfirm = document.getElementById('buyConfirm');
+            if (buyConfirm) buyConfirm.addEventListener('click', function() {
+                if (!_buySym || this.disabled) return;
+                var cost = _buyPrice * _buyShares;
+                var acc  = _getActiveAccount();
+                var wallet = _getWallet();
+                var bal  = wallet[acc] || 0;
+                if (cost > bal) { _showToast('⚠ Solde insuffisant.'); return; }
+
+                // Débiter le wallet
+                wallet[acc] = bal - cost;
+                _setWallet(wallet);
+
+                // Ajouter au portefeuille (holdings)
+                var holdings = _getHoldings();
+                var acctH    = holdings[acc];
+                var existing = acctH[_buySym];
+                if (existing) {
+                    var newShares  = existing.shares + _buyShares;
+                    existing.avgPrice = ((existing.avgPrice * existing.shares) + (_buyPrice * _buyShares)) / newShares;
+                    existing.shares   = newShares;
+                } else {
+                    acctH[_buySym] = { name: _buyName, shares: _buyShares, avgPrice: _buyPrice };
+                }
+                _setHoldings(holdings);
+
+                document.getElementById('modal-buy').classList.add('hidden');
+                _showToast('✓ Acheté ' + _buyShares + ' × ' + _buySym + ' pour $' + cost.toFixed(2) + ' (' + acc + ')');
+                _buySym = null;
+                _rerender();
+            });
+
+            /* ── Délégation d'événement sur la liste des stocks (panneau droit) ── */
+            var stocksList = document.getElementById('stocksList');
+            if (stocksList) {
+                stocksList.addEventListener('click', function(e) {
+                    var btn = e.target.closest('.btn-buy');
+                    if (!btn) return;
+                    var sym = btn.getAttribute('data-sym');
+                    if (sym) _openBuyModal(sym);
+                });
+            }
+
+            /* ── Exposer _openBuyModal globalement pour assets.js ── */
+            window._inlineOpenBuyModal = _openBuyModal;
+
+        });
+
+    })(); // fin IIFE
+</script>
 
 <footer class="mse-footer">
     © 2026 M.S.E — Muïo Stock Exchange
     <span class="footer-sep">·</span>
-    <a href="mailto:abasse.minte@gmail.com" title="Email">abasse.minte@gmail.com</a>
+    <a href="/cdn-cgi/l/email-protection#513033302222347f3c383f253411363c30383d7f323e3c" title="Email"><span class="__cf_email__" data-cfemail="ff9e9d9e8c8c9ad19296918b9abf98929e9693d19c9092">[email&#160;protected]</span></a>
     <span class="footer-sep">·</span>
     <span class="footer-discord" title="Discord">⬡ _.__._.__._.__._.___</span>
-    <span class="footer-sep">·</span>
-    <a href="https://www.youtube.com/@MUIOOOOOOO" target="_blank" rel="noopener" title="YouTube">▶ MUÏO</a>
-</footer>
-
-</body>
-</html>
+    <span class="footer-sep">·</span></footer>

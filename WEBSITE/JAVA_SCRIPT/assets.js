@@ -5,6 +5,20 @@
 
 'use strict';
 
+/* Initialiser le wallet à 0 si pas encore défini */
+(function initWallet() {
+    try {
+        var existing = localStorage.getItem('mse_wallet');
+        if (!existing) {
+            localStorage.setItem('mse_wallet', JSON.stringify({CTO: 0, PEA: 0}));
+        }
+        var existingH = localStorage.getItem('mse_holdings');
+        if (!existingH) {
+            localStorage.setItem('mse_holdings', JSON.stringify({CTO: {}, PEA: {}}));
+        }
+    } catch(e) {}
+})();
+
 /* ── Currency shorthand ── */
 function C()     { return window.MSE_CURRENCY; }
 function fmtC(v) { return C() ? C().fmt(C().fromUSD(v)) : '$' + Math.abs(v).toFixed(2); }
@@ -255,15 +269,15 @@ function renderHoldings() {
         row.innerHTML =
             '<div class="holding-ticker-wrap">' + sym.slice(0,4) + '</div>' +
             '<div class="holding-info">' +
-                '<div class="holding-name">' + h.name + '</div>' +
-                '<div class="holding-shares">' + h.shares + ' ' + (_L().fr() ? 'action' + (h.shares > 1 ? 's' : '') : 'share' + (h.shares > 1 ? 's' : '')) + ' · avg ' + fmtC(h.avgPrice) + '</div>' +
+            '<div class="holding-name">' + h.name + '</div>' +
+            '<div class="holding-shares">' + h.shares + ' ' + (_L().fr() ? 'action' + (h.shares > 1 ? 's' : '') : 'share' + (h.shares > 1 ? 's' : '')) + ' · avg ' + fmtC(h.avgPrice) + '</div>' +
             '</div>' +
             '<div class="holding-right">' +
-                '<div class="holding-value">' + fmtC(currentVal) + '</div>' +
-                '<div class="holding-change ' + (isPos ? 'pos' : 'neg') + '">' +
-                    (isPos ? '▲' : '▼') + ' ' + (isPos ? '+' : '') + pnl.toFixed(2) +
-                    ' (' + (isPos ? '+' : '') + pnlPct.toFixed(2) + '%)' +
-                '</div>' +
+            '<div class="holding-value">' + fmtC(currentVal) + '</div>' +
+            '<div class="holding-change ' + (isPos ? 'pos' : 'neg') + '">' +
+            (isPos ? '▲' : '▼') + ' ' + (isPos ? '+' : '') + pnl.toFixed(2) +
+            ' (' + (isPos ? '+' : '') + pnlPct.toFixed(2) + '%)' +
+            '</div>' +
             '</div>' +
             '<button class="btn-sell" data-sym="' + sym + '">Sell</button>';
 
@@ -289,7 +303,7 @@ function renderStocks() {
     var filtered = stocks.filter(function(s) {
         if (!q) return true;
         return s.name.toLowerCase().indexOf(q) !== -1 ||
-               s.sym.toLowerCase().indexOf(q)  !== -1;
+            s.sym.toLowerCase().indexOf(q)  !== -1;
     });
 
     list.innerHTML = '';
@@ -318,14 +332,14 @@ function renderStocks() {
         row.innerHTML =
             '<div class="stock-logo">' + s.sym.slice(0,4) + '</div>' +
             '<div class="stock-info">' +
-                '<div class="stock-name">' + s.name + '</div>' +
-                '<div class="stock-ticker">' + s.sym + '</div>' +
+            '<div class="stock-name">' + s.name + '</div>' +
+            '<div class="stock-ticker">' + s.sym + '</div>' +
             '</div>' +
             '<div class="stock-price-wrap">' +
-                '<div class="stock-price">' + priceUSD + '</div>' +
-                '<div class="stock-change ' + (isPos ? 'pos' : 'neg') + '">' +
-                    (isPos ? '▲ +' : '▼ ') + s.chg.toFixed(2) + '%' +
-                '</div>' +
+            '<div class="stock-price">' + priceUSD + '</div>' +
+            '<div class="stock-change ' + (isPos ? 'pos' : 'neg') + '">' +
+            (isPos ? '▲ +' : '▼ ') + s.chg.toFixed(2) + '%' +
+            '</div>' +
             '</div>' +
             buyBtn;
 
@@ -360,21 +374,32 @@ document.getElementById('addCancel').addEventListener('click', function() {
     document.getElementById('modal-add').classList.add('hidden');
 });
 document.getElementById('addConfirm').addEventListener('click', function() {
-    var raw = document.getElementById('addAmount').value.replace(',', '.').trim();
-    var amt = parseFloat(raw);
-    if (isNaN(amt) || amt <= 0) {
-        showToast('⚠ ' + _L().t('assets.toast.invalidamt'));
-        return;
+    try {
+        var raw = document.getElementById('addAmount').value.replace(',', '.').trim();
+        var amt = parseFloat(raw);
+        if (isNaN(amt) || amt <= 0) {
+            showToast('⚠ Montant invalide — veuillez entrer un nombre positif.');
+            return;
+        }
+        /* Stockage toujours en USD */
+        var usdAmt = amt;
+        try {
+            if (window.MSE_CURRENCY && typeof window.MSE_CURRENCY.get === 'function' && window.MSE_CURRENCY.get() === 'EUR') {
+                usdAmt = amt / 0.9526;
+            }
+        } catch(ce) {}
+        var wallet = getWallet();
+        wallet[activeAccount] = (wallet[activeAccount] || 0) + usdAmt;
+        setWallet(wallet);
+        document.getElementById('modal-add').classList.add('hidden');
+        var toastMsg = '✓ +' + amt.toFixed(2) + ' déposé dans le compte ' + activeAccount;
+        try { toastMsg = '✓ ' + fmtC(usdAmt) + ' ' + _L().t('assets.toast.added') + ' ' + activeAccount; } catch(te) {}
+        showToast(toastMsg);
+        try { renderAll(); } catch(re) {}
+        try { renderStatCards(); } catch(re) {}
+    } catch(e) {
+        showToast('⚠ Erreur inattendue : ' + e.message);
     }
-    /* Stockage toujours en USD */
-    var usdAmt = (C() && C().get() === 'EUR') ? amt / 0.9526 : amt;
-    var wallet = getWallet();
-    wallet[activeAccount] = (wallet[activeAccount] || 0) + usdAmt;
-    setWallet(wallet);
-    document.getElementById('modal-add').classList.add('hidden');
-    showToast('✓ ' + fmtC(usdAmt) + ' ' + _L().t('assets.toast.added') + ' ' + activeAccount);
-    renderAll();
-    renderStatCards();
 });
 
 /* ==========================================================================
@@ -392,25 +417,38 @@ document.getElementById('withdrawCancel').addEventListener('click', function() {
     document.getElementById('modal-withdraw').classList.add('hidden');
 });
 document.getElementById('withdrawConfirm').addEventListener('click', function() {
-    var raw = document.getElementById('withdrawAmount').value.replace(',', '.').trim();
-    var amt = parseFloat(raw);
-    if (isNaN(amt) || amt <= 0) {
-        showToast('⚠ ' + _L().t('assets.toast.invalidamt'));
-        return;
+    try {
+        var raw = document.getElementById('withdrawAmount').value.replace(',', '.').trim();
+        var amt = parseFloat(raw);
+        if (isNaN(amt) || amt <= 0) {
+            showToast('⚠ Montant invalide — veuillez entrer un nombre positif.');
+            return;
+        }
+        var usdAmt = amt;
+        try {
+            if (window.MSE_CURRENCY && typeof window.MSE_CURRENCY.get === 'function' && window.MSE_CURRENCY.get() === 'EUR') {
+                usdAmt = amt / 0.9526;
+            }
+        } catch(ce) {}
+        var wallet = getWallet();
+        var bal    = wallet[activeAccount] || 0;
+        if (usdAmt > bal) {
+            var balLabel = bal.toFixed(2);
+            try { balLabel = fmtC(bal); } catch(fe) {}
+            showToast('⚠ Solde insuffisant (' + balLabel + ')');
+            return;
+        }
+        wallet[activeAccount] = bal - usdAmt;
+        setWallet(wallet);
+        document.getElementById('modal-withdraw').classList.add('hidden');
+        var toastMsg = '✓ ' + amt.toFixed(2) + ' retiré du compte ' + activeAccount;
+        try { toastMsg = '✓ ' + fmtC(usdAmt) + ' ' + _L().t('assets.toast.withdrawn') + ' ' + activeAccount; } catch(te) {}
+        showToast(toastMsg);
+        try { renderAll(); } catch(re) {}
+        try { renderStatCards(); } catch(re) {}
+    } catch(e) {
+        showToast('⚠ Erreur inattendue : ' + e.message);
     }
-    var usdAmt = (C() && C().get() === 'EUR') ? amt / 0.9526 : amt;
-    var wallet = getWallet();
-    var bal    = wallet[activeAccount] || 0;
-    if (usdAmt > bal) {
-        showToast('⚠ ' + _L().t('assets.toast.insufbal') + ' (' + fmtC(bal) + ')');
-        return;
-    }
-    wallet[activeAccount] = bal - usdAmt;
-    setWallet(wallet);
-    document.getElementById('modal-withdraw').classList.add('hidden');
-    showToast('✓ ' + fmtC(usdAmt) + ' ' + _L().t('assets.toast.withdrawn') + ' ' + activeAccount);
-    renderAll();
-    renderStatCards();
 });
 
 /* ==========================================================================
@@ -678,9 +716,9 @@ function renderTaxSummary() {
             '<span class="tax-stock-sym">' + b.sym + '</span>' +
             '<span class="tax-stock-shares">' + b.shares + ' ' + _L().t('assets.sh') + '</span>' +
             '<div class="tax-stock-nums">' +
-                '<span class="tax-stock-gross">' + fmtC(b.gross) + '</span>' +
-                '<span class="tax-stock-tax">' + (b.tax > 0 ? '−' + fmtC(b.tax) : '—') + '</span>' +
-                '<span class="tax-stock-net" style="color:' + (b.net >= b.gross ? 'var(--gain)' : 'var(--loss)') + '">' + fmtC(b.net) + '</span>' +
+            '<span class="tax-stock-gross">' + fmtC(b.gross) + '</span>' +
+            '<span class="tax-stock-tax">' + (b.tax > 0 ? '−' + fmtC(b.tax) : '—') + '</span>' +
+            '<span class="tax-stock-net" style="color:' + (b.net >= b.gross ? 'var(--gain)' : 'var(--loss)') + '">' + fmtC(b.net) + '</span>' +
             '</div>';
         bdEl.appendChild(row);
     });
