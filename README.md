@@ -7,7 +7,6 @@ J'espère qu'il vous plaira !
 Le projet évolue actuellement d'une architecture Java native vers un écosystème moderne Spring Boot.
 • Backend : Java (IntelliJ IDEA), Spring Boot (en cours d'intégration).
 • Frontend : HTML5, CSS3, JavaScript (Vanilla).
-• Gestion de données : Architecture MVC, intégration de base de données via Spring Data JPA.
 
 Fonctionnalités Actuelles:
 L'interface est divisée en 4 modules principaux :
@@ -15,6 +14,7 @@ L'interface est divisée en 4 modules principaux :
 2. Gestion des Actifs : Suivi du portefeuille en temps réel. Fonctionnalité actuelle : Achat d'actions.
 3. Création de Compte : Système d'enregistrement et de gestion d'utilisateurs.
 4. Paramètres : Configuration de l'environnement et du profil utilisateur.
+5. Biographie
 
 Roadmap (Évolutions à venir):
 En tant que futur ingénieur, je documente ici la vision long terme du produit :
@@ -46,8 +46,6 @@ The project is currently evolving from a native Java architecture to a modern Sp
 
 • Frontend: HTML5, CSS3, JavaScript (Vanilla).
 
-• Data Management: MVC architecture, database integration via Spring Data JPA.
-
 Current Features
 The interface is divided into 4 main modules:
 
@@ -58,6 +56,8 @@ The interface is divided into 4 main modules:
 3. Account Creation: User registration and management system.
 
 4. Settings: User environment and profile configuration.
+
+5. Biography
 
 Roadmap (Upcoming Developments)
 As a future engineer, I am documenting the long-term vision for the product here:
