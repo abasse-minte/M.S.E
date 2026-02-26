@@ -50,6 +50,7 @@
         'market.nav.assets':         { EN: 'Assets',                    FR: 'Actifs' },
         'market.nav.account':        { EN: 'Account',                   FR: 'Compte' },
         'market.nav.settings':       { EN: 'Settings',                  FR: 'Paramètres' },
+        'market.nav.about':          { EN: 'About',                     FR: 'À propos' },
 
         /* ── Add Company Modal ── */
         'modal.add.title':           { EN: 'Add a Company',             FR: 'Ajouter une Société' },
